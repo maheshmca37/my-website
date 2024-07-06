@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
 
   // Set the initial time for the countdown in seconds
-  let countdownTime = 25; // Example: 1 hour
+  let countdownTime = 70; // Example: 1 hour
   let timerInterval;
 
   function updateTimer() {
