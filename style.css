@@ -17,6 +17,11 @@
     font-size: 18px;
     color: #001e4d;
     font-weight: 100;
+    margin-left: 20px;
+}
+
+#opt1,#opt2,#opt3,#opt4{
+    margin-left: 20px;
 }
 
 .btn:hover:not([disabled]){
