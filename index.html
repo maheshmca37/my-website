@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>  Quiz App        </title>
+        <title>ONLINE EXAM</title>
         <link rel="stylesheet" href="style.css">
     </head>
 
 
 <body>  
-
-    <div  class="col" >
-    
-        <div class = "quiz">
+    <div class="container">
+        <div class = "exam" id="exam">
             <div id="timer">00:00:00</div><br><br>
             <h2 id="question"> Question goes here</h2> <br>  <br>
 
@@ -26,27 +24,28 @@
 
                  <input type="radio" id="opt4" name="option"  value="option4"/> 
                  <label for="opt4">OPTION D</label> <br> <br> 
-
-              </form>
+            </form>
             
             <button id="next-btn">sNext</button>
             <button id="Review-btn">Save and Review</button>
             <button id="onxt-btn">Next</button>
+            <button id="close-btn">Close Exam</button>
             <button id="submit-btn"  type="button">SUBMIT AND ANALYSIS</button>
             <button id="ans-btn" type="button">CORRECT ANSWER</button>
             <button id="anxt-btn" type="button">NEXT</button> <br> <br>
             <button id="hint-btn" type="button">HINT</button>
         </div>
 
-       <h1>  ALL QUESTIONS</h1>
-       <form action="" id="optn-btns">
+        <div class="allbtns" id="allbtns">
+          <h1>  ALL QUESTIONS</h1>
+          <form action="" id="optn-btns">
         
        <button class="btn" id="1"   type="button"  onclick="setQuestionById(1,selectedOptions[1])">1</button>
        <button class="btn" id="2"   type="button"  onclick="setQuestionById(2,selectedOptions[2])">2</button>
        <button class="btn" id="3" type="button"  onclick="setQuestionById(3,selectedOptions[3])">3</button>
        <button class="btn" id="4"   type="button"  onclick="setQuestionById(4,selectedOptions[4])">4</button>
        <button class="btn" id="5"   type="button"  onclick="setQuestionById(5,selectedOptions[5])">5</button>
-    <br>   <button class="btn" id="6"   type="button"  onclick="setQuestionById(6,selectedOptions[6])">6</button>
+       <button class="btn" id="6"   type="button"  onclick="setQuestionById(6,selectedOptions[6])">6</button>
 	   <button class="btn" id="7"   type="button"  onclick="setQuestionById(7,selectedOptions[7])">7</button>
        <button class="btn" id="8"   type="button"  onclick="setQuestionById(8,selectedOptions[8])">8</button>
        <button class="btn" id="9"  type="button"  onclick="setQuestionById(9,selectedOptions[9])">9</button>
@@ -56,11 +55,11 @@
        <button class="btn" id="13"  type="button"  onclick="setQuestionById(13,selectedOptions[13])">13</button>
 	   <button class="btn" id="14"   type="button"  onclick="setQuestionById(14,selectedOptions[14])">14</button>
        <button class="btn" id="15"   type="button"  onclick="setQuestionById(15,selectedOptions[15])">15</button>
-      <br> <button class="btn" id="16"  type="button"  onclick="setQuestionById(16,selectedOptions[16])">16</button>
+      
   
         
      </form>
-
+     </div>
     </div>
 </body>
 

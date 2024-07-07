@@ -1,3 +1,25 @@
+
+.container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Vertically space items */
+    height: 100vh; /* Full viewport height */
+}
+
+.exam,
+.allbtns {
+    flex: 1; /* Allow each section to take up equal vertical space */
+    padding: 30px; /* Adjust padding as needed */
+    box-sizing: border-box; /* Include padding in width calculations */
+}
+
+.exam {
+    background-color: #e6eef0; /* Example background color */
+}
+
+.allbtns {
+    background-color: #501899; /* Example background color */
+}
 *
 {
     margin: 0;
@@ -33,7 +55,7 @@
     cursor: no-drop;
 }
 
-#next-btn{
+#next-btn,#close-btn{
     background: #001e4d;
     color: #fff;
     font-weight: 500;
@@ -103,22 +125,6 @@
     text-align: center;
     border-radius: 4px;
    
-}
-
-
-
-.leftside, .rightside{
-    height: 50vh;
-    width: 50%;
-}
-.leftside{
-    background: rgb(170, 182, 63);
-    float: left;
-}
-.rightside{
-    background: rgb(53, 147, 202);
-    float: right;
-    
 }
 
 

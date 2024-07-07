@@ -8,6 +8,10 @@ let selectedOptions = [];
 var radios = document.getElementsByName('option');
 let currentQtnNo = 0;
 let isSaveNextStatus = true;
+let timerInterval;
+let maxQuestions=15;
+let duration =30;
+
 
 //Window.startTimer=startTimer;
 
@@ -65,6 +69,15 @@ document.getElementById("onxt-btn").onclick = setOnlyNextQuestion;
 document.getElementById("submit-btn").onclick = setAnalysisData;
 document.getElementById("anxt-btn").onclick = setAnalysisNextQuestion;
 
+const timerElement = document.getElementById('timer');
+document.getElementById('close-btn').addEventListener('click',()=> {
+  if(timerInterval){
+    clearInterval(timerInterval);
+    timerInterval = null;
+    setAnalysis();
+  }
+});
+
 function setAnalysisNextQuestion ()
 {
   let selectdOptionVal=0;
@@ -76,7 +89,9 @@ function setAnalysisNextQuestion ()
   for(var i = 0 ; i < radios.length; i++){
     radios[i].checked=false;
   }
-  radios[selectdOptionVal-1].checked = true;
+  if(selectdOptionVal>0){
+    radios[selectdOptionVal-1].checked = true;
+  }
   const hintbtn = document.getElementById("hint-btn");
   hintbtn.innerHTML= loadedData[currentQuestionIndex].qhint;
 
@@ -130,7 +145,9 @@ function setAnalysisData(){
   for(var i = 0 ; i < radios.length; i++){
     radios[i].checked=false;
   }
-  radios[selectdOptionVal-1].checked = true;
+  if (selectdOptionVal>0){
+    radios[selectdOptionVal-1].checked = true;
+  }
   hintbtn.innerHTML= loadedData[currentQuestionIndex].qhint;
 
   ansbtn.innerHTML="ANSWER - OPTION:"+ loadedData[currentQuestionIndex].qans;
@@ -160,6 +177,10 @@ function setAnalysis(){
     onxbtn.style.display = 'none'; 
   const rvbtn = document.getElementById("Review-btn");
     rvbtn.style.display = 'none';
+  const closebtn = document.getElementById("close-btn");
+    closebtn.style.display = 'none';
+
+  timerElement.textContent = '00:00:00';
 
   const form=document.getElementById('optn-btns');
   const elements=form.elements;
@@ -176,6 +197,7 @@ function setAnalysis(){
 
 
 function setOnlyNextQuestion(){
+
   var selectedIndex = -1;
   for(var i = 0 ; i < radios.length; i++){
     if(radios[i].checked){
@@ -215,6 +237,7 @@ function setReviewStatus(){
 
 
 function setQuestionById(qid,prvSelId){
+  currentQuestionIndex = qid - 1;
   var selectedIndex = -1;
   for(var i = 0 ; i < radios.length; i++){
     if(radios[i].checked){
@@ -228,7 +251,7 @@ function setQuestionById(qid,prvSelId){
 
   }
 
-    currentQuestionIndex = qid - 1;
+  
     showQuestion();
     
     for(var i = 0 ; i < radios.length; i++){
@@ -243,21 +266,22 @@ function setQuestionById(qid,prvSelId){
 }
 
 
+function setExamResultscores(){
+  
+  //alert("YOUR SCORE: " +CorrectdCount );
+  const nextBtn = document.getElementById("next-btn");
+  nextBtn.style.display = 'none';
+ 
+  
+  const rvwBtn = document.getElementById("Review-btn");
+  rvwBtn.style.display = 'none';
+  const onxbtn =document.getElementById("onxt-btn");
+  onxbtn.style.display ='none';
+
+}
+
 
 function setNextQuestion(){
-
-
-  if(currentQuestionIndex==15){
-    alert("YOUR SCORE: " +CorrectdCount );
-    const nextBtn = document.getElementById("next-btn");
-    nextBtn.style.display = 'none';
-   
-    
-    const rvwBtn = document.getElementById("Review-btn");
-    rvwBtn.style.display = 'none';
-   
-    exit;
-  }
 
 var selectedIndex = -1;
   for(var i = 0 ; i < radios.length; i++){
@@ -288,6 +312,7 @@ var selectedIndex = -1;
    for(var i = 0 ; i < radios.length; i++){
     radios[i].checked=false;
     }
+
     currentQuestionIndex = currentQuestionIndex + 1;
     isSaveNextStatus = true;
     showQuestion();
@@ -295,16 +320,11 @@ var selectedIndex = -1;
 
 }
 
-
-
 // TIMER FUNCTION
 document.addEventListener('DOMContentLoaded', function() {
-  const timerElement = document.getElementById('timer');
   
-
   // Set the initial time for the countdown in seconds
-  let countdownTime = 70; // Example: 1 hour
-  let timerInterval;
+  let countdownTime = duration; // Example: 1 hour
 
   function updateTimer() {
       if (countdownTime <= 0) {
