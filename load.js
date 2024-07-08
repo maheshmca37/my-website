@@ -11,7 +11,7 @@ let isSaveNextStatus = true;
 let timerInterval;
 let maxQuestions=15;
 let duration =30;
-
+let reviewProcess = false;
 
 //Window.startTimer=startTimer;
 
@@ -81,7 +81,31 @@ function examSummaryReport(){
   alert(resStr);
 }
 
+function setButtonColorsAfterExam(){
+  reviewProcess=true;
+  const form=document.getElementById('optn-btns');
+  const elements=form.elements;
+   for(let i=0; i<elements.length;i++){
+     elements[i].disabled = false;
+   }
+   let loopvar=0;
+   currentQuestionIndex=0;
+   for(let i=1; i<maxQuestions+1;i++){
+     loopvar=i;
+     const crtbtn=document.getElementById(loopvar);
+    if(selectedOptions[currentQuestionIndex+1]==loadedData[currentQuestionIndex].qans)
+      {
+        crtbtn.style.background='green';
+      }
+      else
+      {
+        crtbtn.style.background='red';
+      }
+      currentQuestionIndex=currentQuestionIndex+1;
+   }
 
+  setAnalysisData();
+}
 
 const timerElement = document.getElementById('timer');
 document.getElementById('close-btn').addEventListener('click',()=> {
@@ -90,21 +114,26 @@ document.getElementById('close-btn').addEventListener('click',()=> {
     timerInterval = null;
     setAnalysis();
     examSummaryReport();
-
+    setButtonColorsAfterExam();
+    
   }
 });
 
 function setAnalysisNextQuestion ()
 {
   let selectdOptionVal=0;
+  if(reviewProcess){
+
+  }
+  else{
   currentQuestionIndex = currentQuestionIndex + 1;
+  }
   
   if(currentQuestionIndex==maxQuestions){
     currentQuestionIndex=0;
   }
   showQuestion();
   selectdOptionVal = selectedOptions[currentQuestionIndex+1];
-
   for(var i = 0 ; i < radios.length; i++){
     radios[i].checked=false;
   }
@@ -201,11 +230,6 @@ function setAnalysis(){
 
   timerElement.textContent = '00:00:00';
 
-  const form=document.getElementById('optn-btns');
-  const elements=form.elements;
-   for(let i=0; i<elements.length;i++){
-     elements[i].disabled = true;
-   }
   
   const form1=document.getElementById('radio-btns');
   const elements1=form1.elements;
@@ -256,6 +280,13 @@ function setReviewStatus(){
 
 
 function setQuestionById(qid,prvSelId){
+
+  
+  if(reviewProcess){
+    currentQuestionIndex = qid-1;
+    setAnalysisNextQuestion();
+    exit;
+  }
   currentQuestionIndex = qid - 1;
   if(currentQuestionIndex==maxQuestions){
     currentQuestionIndex=0;
@@ -372,6 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
      // alert("TIME COMPLETED");
        setAnalysis();
        examSummaryReport();
+       setButtonColorsAfterExam();
 
       // You can add more logic here, like showing a message to the user
   }
