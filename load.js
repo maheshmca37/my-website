@@ -69,12 +69,28 @@ document.getElementById("onxt-btn").onclick = setOnlyNextQuestion;
 document.getElementById("submit-btn").onclick = setAnalysisData;
 document.getElementById("anxt-btn").onclick = setAnalysisNextQuestion;
 
+function examSummaryReport(){
+  let resStr="";
+  let notAttempterd="";
+  notAttempterd= maxQuestions -(CorrectdCount+Wrongount);
+  resStr="EXAM COMPLETED"+
+          "\n Total Exam Questions  : "+maxQuestions+
+          "\n Correct Answred       : "+CorrectdCount+
+          "\n Wrong Answred         : "+Wrongount+
+          "\n Not Attempted         : "+notAttempterd;
+  alert(resStr);
+}
+
+
+
 const timerElement = document.getElementById('timer');
 document.getElementById('close-btn').addEventListener('click',()=> {
   if(timerInterval){
     clearInterval(timerInterval);
     timerInterval = null;
     setAnalysis();
+    examSummaryReport();
+
   }
 });
 
@@ -346,6 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function onTimerEnd() {
      // alert("TIME COMPLETED");
        setAnalysis();
+       examSummaryReport();
 
       // You can add more logic here, like showing a message to the user
   }
