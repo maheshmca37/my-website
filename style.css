@@ -7,7 +7,6 @@
 
 .exam,
 .allbtns {
-    flex: 1; /* Allow each section to take up equal vertical space */
     padding: 30px; /* Adjust padding as needed */
     box-sizing: border-box; /* Include padding in width calculations */
 }
