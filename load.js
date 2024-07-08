@@ -99,6 +99,9 @@ function setAnalysisNextQuestion ()
   let selectdOptionVal=0;
   currentQuestionIndex = currentQuestionIndex + 1;
   
+  if(currentQuestionIndex==maxQuestions){
+    currentQuestionIndex=0;
+  }
   showQuestion();
   selectdOptionVal = selectedOptions[currentQuestionIndex+1];
 
@@ -254,6 +257,9 @@ function setReviewStatus(){
 
 function setQuestionById(qid,prvSelId){
   currentQuestionIndex = qid - 1;
+  if(currentQuestionIndex==maxQuestions){
+    currentQuestionIndex=0;
+  }
   var selectedIndex = -1;
   for(var i = 0 ; i < radios.length; i++){
     if(radios[i].checked){
@@ -330,6 +336,9 @@ var selectedIndex = -1;
     }
 
     currentQuestionIndex = currentQuestionIndex + 1;
+    if(currentQuestionIndex==maxQuestions){
+      currentQuestionIndex=0;
+    }
     isSaveNextStatus = true;
     showQuestion();
 
