@@ -2,7 +2,6 @@
 .container {
     display: flex;
     flex-direction: column; /* Stack items vertically */
-    justify-content: space-between; /* Vertically space items */
     height: 100vh; /* Full viewport height */
 }
 
@@ -14,10 +13,12 @@
 }
 
 .exam {
+    flex: 250%;
     background-color: #e6eef0; /* Example background color */
 }
 
 .allbtns {
+    flex: 75%;
     background-color: #501899; /* Example background color */
 }
 *
