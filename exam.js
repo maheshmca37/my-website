@@ -214,7 +214,20 @@ function setButtonColorsAfterExam(){
 
 
 const timerElement = document.getElementById('timer');
+
+
+
 document.getElementById('close-btn').addEventListener('click',()=> {
+
+  const userConfirmed = confirm("Are you sure to Close?");
+  
+  // Check the user's response
+  if (userConfirmed) {
+      
+  } else {
+      return;
+  }
+
   if(timerInterval){
     clearInterval(timerInterval);
     timerInterval = null;
@@ -398,7 +411,7 @@ function setQuestionById(qid,prvSelId){
   if(reviewProcess){
     currentQuestionIndex = qid-1;
     setAnalysisNextQuestion();
-    exit;
+    return;
   }
   currentQuestionIndex = qid - 1;
   if(currentQuestionIndex==maxQuestions){
@@ -465,7 +478,7 @@ var selectedIndex = -1;
   }
   else if(isSaveNextStatus == true) {
     alert("Select Any Option");
-    exit;
+    return;
   }
 
     currentQuestionIndex = currentQuestionIndex + 1;
