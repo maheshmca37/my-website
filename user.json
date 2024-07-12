@@ -1,15 +1,12 @@
 [
 
     {
-        "maxquestions": 100,
-        "duration": 100,
-        "user1": "ma",
-        "user2": "he",
-        "user3": "sh",
-        "user4": "m",
-        "user5": "mm"
+        "examid":"vzmexam1",
+        "usr": "m",
+        "pwrd": "m",
+        "maxquestions":"15",
+        "duration": "90"
+        
     }
-
-
 
 ]

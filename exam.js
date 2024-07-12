@@ -1,19 +1,41 @@
 const listE1 = document.querySelector('ul');
 
+let duration = 100;
+
 let currentQuestionIndex = 0;
 let loadedData = '';
 let CorrectdCount = 0;
-let Wrongount = 0;
+let WrongCount = 0;
 let selectedOptions = [];
 var radios = document.getElementsByName('option');
 let currentQtnNo = 0;
 let isSaveNextStatus = true;
 let timerInterval;
 let maxQuestions=15;
-let duration =100;
+
+let examName='Exam';
+let studentName='mahesh';
 let reviewProcess = false;
 
-//Window.startTimer=startTimer;
+
+//
+loadExamDetails();
+function loadExamDetails(){
+// Assume your JSON file is 'data.json' in the same directory as your JavaScript file
+
+fetch('user.json')
+  .then(response => response.json())
+  .then(udata => {
+    
+    examName= udata[0].examid;
+    maxQuestions= udata[0].maxquestions;
+    //duration= udata[0].duration;
+
+
+  })
+  .catch(error => console.error('Error fetching JSON:', error));
+}
+
 
 startQuiz1();
 function startQuiz1(){
@@ -25,9 +47,7 @@ function startQuiz1(){
        .then(data  => {
         data.forEach(user => {
             loadedData = data;
-
-           
-            
+             
         }); startQuiz(loadedData);
        })
         .catch(error => console.logerror());
@@ -109,7 +129,7 @@ document.getElementById("anxt-btn").onclick = setAnalysisNextQuestion;
 
 function examSummaryReport(){
   let notAttempterd="";
-  notAttempterd= maxQuestions -(CorrectdCount+Wrongount);
+  notAttempterd= maxQuestions -(CorrectdCount+WrongCount);
  
  const resbtn1=document.getElementById("res-status1");
  resbtn1.style.display='inline';
@@ -118,10 +138,46 @@ function examSummaryReport(){
  
  const resbtn2=document.getElementById("res-status2");
  resbtn2.style.display='inline';
- resbtn2.innerHTML="CORRECT : " +CorrectdCount+"<br>"+"<br>"+"WRONG : "+Wrongount;
+ resbtn2.innerHTML="CORRECT : " +CorrectdCount+"<br>"+"<br>"+"WRONG : "+WrongCount;
  
 
+ // to save the details in data base... enaable this call
+ //setExamResultToDatabase();
+
 }
+
+function setExamResultToDatabase(){
+  // Retrieve username from localStorage
+   studentName = localStorage.getItem('stdntname');
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAdwlJCdrMnKC_Pa4Lrtaq2yct8x3IC-ps",
+    authDomain: "myexam-1987.firebaseapp.com",
+    projectId: "myexam-1987",
+    storageBucket: "myexam-1987.appspot.com",
+    messagingSenderId: "50845302692",
+    appId: "1:50845302692:web:324cae25843d6d7fba8b31",
+    measurementId: "G-5BGSTMV6NT"
+  };
+  
+firebase.initializeApp(firebaseConfig);
+   // Get a reference to the database service
+const database = firebase.database();
+
+// Reference to the "users" node in your database
+const usersRef = database.ref(examName);
+// Example data to be inserted
+const userData = {
+  name: studentName,
+  marks: CorrectdCount
+};
+
+// Push data to Firebase Realtime Database under "users" node
+  usersRef.push(userData);
+
+}
+
+
 
 function setButtonColorsAfterExam(){
   reviewProcess=true;
@@ -132,26 +188,30 @@ function setButtonColorsAfterExam(){
    }
    let loopvar=0;
    currentQuestionIndex=0;
-   for(let i=1; i<maxQuestions+1;i++){
+   CorrectdCount=0;
+   WrongCount=0;
+   for(let i=1; i<maxQuestions;i++){
      loopvar=i;
      const crtbtn=document.getElementById(loopvar);
     if(selectedOptions[currentQuestionIndex+1]==loadedData[currentQuestionIndex].qans)
       {
         crtbtn.style.background='green';
+        CorrectdCount=CorrectdCount+1;
       }
       else if(selectedOptions[currentQuestionIndex+1]>0){
         crtbtn.style.background='red';
+        WrongCount=WrongCount+1;
       }
       else
       {
         crtbtn.style.background='grey';
       }
       currentQuestionIndex=currentQuestionIndex+1;
-   }
-
-
+    }
   setAnalysisData();
+
 }
+
 
 const timerElement = document.getElementById('timer');
 document.getElementById('close-btn').addEventListener('click',()=> {
@@ -159,8 +219,9 @@ document.getElementById('close-btn').addEventListener('click',()=> {
     clearInterval(timerInterval);
     timerInterval = null;
     setAnalysis();
-    examSummaryReport();
+    setAnalysisData();
     setButtonColorsAfterExam();
+    examSummaryReport();
     
   }
 });
@@ -258,7 +319,7 @@ function setAnalysisData(){
   }
   else
   {
-    ansbtn.style.background='red';
+    ansbtn.style.background='grey';
   }
   const form=document.getElementById('radio-btns');
   const elements=form.elements;
@@ -270,7 +331,7 @@ function setAnalysisData(){
 
 function setAnalysis(){
   const submitbtn = document.getElementById("submit-btn");
-    submitbtn.style.display = 'inline';
+    submitbtn.style.display = 'none';
   const nxtbtn = document.getElementById("next-btn"); 
     nxtbtn.style.display = 'none';
   const onxbtn = document.getElementById("onxt-btn"); 
@@ -407,34 +468,29 @@ var selectedIndex = -1;
     exit;
   }
 
-   if(selectedIndex==loadedData[currentQuestionIndex].qans){
-     CorrectdCount = CorrectdCount + 1;     
-   }
-   else{
-      Wrongount = Wrongount + 1;
-   }
-
-   for(var i = 0 ; i < radios.length; i++){
-    radios[i].checked=false;
-    }
-
     currentQuestionIndex = currentQuestionIndex + 1;
     if(currentQuestionIndex==maxQuestions){
       currentQuestionIndex=0;
     }
     isSaveNextStatus = true;
     showQuestion();
-
+   let selectdOptionVal = selectedOptions[currentQuestionIndex+1];
+  for(var i = 0 ; i < radios.length; i++){
+    radios[i].checked=false;
+  }
+  if(selectdOptionVal>0){
+    radios[selectdOptionVal-1].checked = true;
+  }
 
 }
 
 // TIMER FUNCTION
 document.addEventListener('DOMContentLoaded', function() {
   
-  // Set the initial time for the countdown in seconds
   let countdownTime = duration; // Example: 1 hour
 
   function updateTimer() {
+    
       if (countdownTime <= 0) {
           clearInterval(timerInterval);
           timerElement.textContent = '00:00:00';
@@ -454,8 +510,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function onTimerEnd() {
      // alert("TIME COMPLETED");
        setAnalysis();
-       examSummaryReport();
+       setAnalysisData()
        setButtonColorsAfterExam();
+       examSummaryReport();
 
       // You can add more logic here, like showing a message to the user
   }
