@@ -95,11 +95,23 @@
     display: none;
 }
 
-#hint-btn{
+#hintTextArea{
+    width: 300px;
+    height: 100px;
+    padding: 10px;
+    font-family: Arial;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+#download-pdf{
     background: #001e4d;
     color: #fff;
     font-weight: 500;
-    width: 500px;
+    width: 250px;
     border: 0;
     padding: 10px;
     margin: 20px auto 0;
@@ -107,6 +119,19 @@
     cursor: pointer;
     display: none;
 }
+
+#change-lang{
+    background: #001e4d;
+    color: #fff;
+    font-weight: 500;
+    width: 70px;
+    border: 0;
+    padding: 10px;
+    margin: 20px  0 0 100px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 
 #ans-btn,#anxt-btn,#submit-btn{
     background: #001e4d;

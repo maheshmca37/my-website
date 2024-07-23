@@ -1,9 +1,11 @@
-const listE1 = document.querySelector('ul');
+//const listE1 = document.querySelector('ul');
 
-let duration = 100;
+let duration = 50;
+let maxQuestions=5;
 
 let currentQuestionIndex = 0;
 let loadedData = '';
+let loadedLang2Data = '';
 let CorrectdCount = 0;
 let WrongCount = 0;
 let selectedOptions = [];
@@ -11,11 +13,12 @@ var radios = document.getElementsByName('option');
 let currentQtnNo = 0;
 let isSaveNextStatus = true;
 let timerInterval;
-let maxQuestions=15;
+
 
 let examName='Exam';
 let studentName='mahesh';
 let reviewProcess = false;
+let selectedLanguage = 1;
 
 
 //
@@ -37,8 +40,8 @@ fetch('user.json')
 }
 
 
-startQuiz1();
-function startQuiz1(){
+loadExamDataLang1();
+function loadExamDataLang1(){
 
      fetch('./loadj.json')
        .then(res => {
@@ -48,11 +51,30 @@ function startQuiz1(){
         data.forEach(user => {
             loadedData = data;
              
-        }); startQuiz(loadedData);
+        }); startExam(loadedData);
        })
         .catch(error => console.logerror());
         
 };
+
+
+loadExamDataLang2();
+function loadExamDataLang2(){
+
+     fetch('./loadtel.json')
+       .then(res => {
+          return res.json();
+       })
+       .then(data1  => {
+        data1.forEach(user => {
+            loadedLang2Data = data1;
+             
+        }); 
+       })
+        .catch(error => console.logerror());
+        
+};
+
 
 // Assuming you have a container element in your HTML where buttons will be appended
 const container = document.getElementById('allbtns');
@@ -96,25 +118,35 @@ for (let i = 1; i <= maxQuestions; i++) {
 const questionElement = document.getElementById("question");
 const nxtButton = document.getElementById("next-btn");
 
-function startQuiz(loadedData){
+const changeLang = document.getElementById("change-lang");
+
+
+function startExam(loadedData){
     showQuestion();
 }
 
 function showQuestion() {
 
+  if(selectedLanguage == 1){
+
     currentQtnNo = loadedData[currentQuestionIndex].qid;
     questionElement.innerHTML = currentQtnNo + ".  " +loadedData[currentQuestionIndex].qname;
-    
-    const optio1 = document.getElementById("opt1");
-    const optio2 = document.getElementById("opt2");
-    const optio3 = document.getElementById("opt3");
-    const optio4 = document.getElementById("opt4");
    
     document.getElementById("opt1").nextElementSibling.textContent="(1)"+loadedData[currentQuestionIndex].qopt1;
     document.getElementById("opt2").nextElementSibling.textContent="(2)"+loadedData[currentQuestionIndex].qopt2;
     document.getElementById("opt3").nextElementSibling.textContent="(3)"+loadedData[currentQuestionIndex].qopt3;
     document.getElementById("opt4").nextElementSibling.textContent="(4)"+loadedData[currentQuestionIndex].qopt4;
-
+  }
+  if(selectedLanguage == 2){
+    currentQtnNo = loadedLang2Data[currentQuestionIndex].qid;
+    questionElement.innerHTML = currentQtnNo + ".  " +loadedLang2Data[currentQuestionIndex].qname;
+   
+    document.getElementById("opt1").nextElementSibling.textContent="(1)"+loadedLang2Data[currentQuestionIndex].qopt1;
+    document.getElementById("opt2").nextElementSibling.textContent="(2)"+loadedLang2Data[currentQuestionIndex].qopt2;
+    document.getElementById("opt3").nextElementSibling.textContent="(3)"+loadedLang2Data[currentQuestionIndex].qopt3;
+    document.getElementById("opt4").nextElementSibling.textContent="(4)"+loadedLang2Data[currentQuestionIndex].qopt4;
+    
+  }
    
     const nextBtn = document.getElementById("next-btn");
     nextBtn.innerHTML = "Save and Next";
@@ -126,6 +158,74 @@ document.getElementById("Review-btn").onclick = setReviewStatus;
 document.getElementById("onxt-btn").onclick = setOnlyNextQuestion;
 document.getElementById("submit-btn").onclick = setAnalysisData;
 document.getElementById("anxt-btn").onclick = setAnalysisNextQuestion;
+
+document.getElementById("change-lang").onclick = setLanguage;
+//document.getElementById("download-pdf").onclick = setDataForDownlaod;
+
+function setLanguage(){
+
+  const langbtn = document.getElementById("change-lang");
+  if(langbtn.innerHTML=='TELUGU') {
+    selectedLanguage = 2;
+    langbtn.innerHTML= "ENGLISH";
+  }
+  else {
+    selectedLanguage = 1;
+    langbtn.innerHTML= "TELUGU";
+  }
+
+  showQuestion();
+}
+
+
+document.getElementById("download-pdf").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default form submission or link behavior
+    const content = [];
+    
+    
+    const sname =   "Name : "+studentName; 
+    const exname =   "Exam  : "+examName; 
+    const tmarks = "Total Questions :"+maxQuestions;
+    let noatt = maxQuestions-(CorrectdCount+WrongCount);
+    const notattempt = "Not Attempted : "+noatt;
+    const resmarks ="Correct : "+CorrectdCount;
+    const wrmarks = "Wrong : "+WrongCount;
+     
+    
+    content.push({ text: exname, fontSize: 16, bold: true });
+    content.push({ text: sname, fontSize: 16, bold: true });
+    content.push({ text: tmarks, fontSize: 16, bold: true });
+    content.push({ text: notattempt, fontSize: 16, bold: true });
+    content.push({ text: resmarks, fontSize: 16, bold: true });
+    content.push({ text: wrmarks, fontSize: 16, bold: true });
+
+    content.push({ text: '', margin: [0, 15] });
+
+
+    loadedData.forEach((q,index) => {
+      content.push({ text: `Q${q.qid}. ${q.qname}`, fontSize: 13 });
+      
+      content.push({ text: `1. ${q.qopt1}`, fontSize: 12 });
+      content.push({ text: `2. ${q.qopt2}`, fontSize: 12 });
+      content.push({ text: `3. ${q.qopt3}`, fontSize: 12 });
+      content.push({ text: `4. ${q.qopt4}`, fontSize: 12 });
+
+      // Add user selection after options
+        const userSelection = selectedOptions[index+1]; // Get the user selection for the current question
+        content.push({ text: `Your: Option ${userSelection}`, fontSize: 12 });
+        
+
+      content.push({ text: `Answer: Option ${q.qans}`, fontSize: 13 });
+      content.push({ text: `Hint: ${q.qhint}`, fontSize: 13 });
+      content.push({ text: '', margin: [0, 10] }); // Adds a space between questions
+    });
+
+    const docDefinition = { 
+      content: content
+    };
+
+    pdfMake.createPdf(docDefinition).download('result.pdf');
+  });
 
 function examSummaryReport(){
   let notAttempterd="";
@@ -140,6 +240,11 @@ function examSummaryReport(){
  resbtn2.style.display='inline';
  resbtn2.innerHTML="CORRECT : " +CorrectdCount+"<br>"+"<br>"+"WRONG : "+WrongCount;
  
+  
+  const pdfbtn=document.getElementById("download-pdf");
+  pdfbtn.style.display='inline';
+  
+
 
  // to save the details in data base... enaable this call
  //setExamResultToDatabase();
@@ -190,7 +295,7 @@ function setButtonColorsAfterExam(){
    currentQuestionIndex=0;
    CorrectdCount=0;
    WrongCount=0;
-   for(let i=1; i<maxQuestions;i++){
+   for(let i=1; i<=maxQuestions;i++){
      loopvar=i;
      const crtbtn=document.getElementById(loopvar);
     if(selectedOptions[currentQuestionIndex+1]==loadedData[currentQuestionIndex].qans)
@@ -260,8 +365,11 @@ function setAnalysisNextQuestion ()
   if(selectdOptionVal>0){
     radios[selectdOptionVal-1].checked = true;
   }
-  const hintbtn = document.getElementById("hint-btn");
-  hintbtn.innerHTML= loadedData[currentQuestionIndex].qhint;
+  //const hintbtn = document.getElementById("hint-btn");
+ // hintbtn.innerHTML= loadedData[currentQuestionIndex].qhint;
+
+  const tarea = document.getElementById("hintTextArea");
+  tarea.value = loadedData[currentQuestionIndex].qhint;
 
   const ansbtn = document.getElementById("ans-btn");
   ansbtn.innerHTML="ANSWER - OPTION:"+ loadedData[currentQuestionIndex].qans;
@@ -298,8 +406,12 @@ function setAnalysisData(){
   const anxtbtn = document.getElementById("anxt-btn");
   anxtbtn.style.display = 'none';
   
-  const hintbtn = document.getElementById("hint-btn");
-  hintbtn.style.display = 'inline';
+  //const hintbtn = document.getElementById("hint-btn");
+ // hintbtn.style.display = 'inline';
+
+  
+  const hint1 = document.getElementById("hintTextArea");
+  hint1.style.display = 'inline';
 
   const submtbtn = document.getElementById("submit-btn");
   submtbtn.style.display = 'none';
@@ -319,7 +431,9 @@ function setAnalysisData(){
   if (selectdOptionVal>0){
     radios[selectdOptionVal-1].checked = true;
   }
-  hintbtn.innerHTML= loadedData[currentQuestionIndex].qhint;
+  //hintbtn.innerHTML= loadedData[currentQuestionIndex].qhint;
+  document.getElementById("hintTextArea").value = loadedData[currentQuestionIndex].qhint;
+
 
   ansbtn.innerHTML="ANSWER - OPTION:"+ loadedData[currentQuestionIndex].qans;
     

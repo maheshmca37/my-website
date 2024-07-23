@@ -29,7 +29,7 @@
         "qopt3": "AMAZON",
         "qopt4": "GANGA",
         "qans": "4",
-        "qhint": "THIS IS THE HINT FOR QUESTION 3"
+        "qhint": "THIS IS THE HINT FOR QUESTION 3  hhhhhhhhhhhhhhhh      jjjjjjjjjjjjjjjjj    kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk     nnnnnnnnnnnnnnnnnnnnnnnnnn           lllllllllllllllllll ppppppppppppppppp   hhhhhhhhhhhhhhhhhhhhhhhhhhhhh  mmmmmmmmmmmmmmmmmmmmmmmmm"
     },
     
     
@@ -53,116 +53,7 @@
         "qopt4": "GANGA",
         "qans": "2",
         "qhint": "THIS IS THE HINT FOR QUESTION 5"
-    },
-    
-    
-    {
-        "qid": 6,
-        "qname": "WHAT IS THE CAPITAL OF ITALY",
-        "qopt1": "ROME",
-        "qopt2": "SYDNEY",
-        "qopt3": "LAMA",
-        "qopt4": "BEJING",
-        "qans": "1",
-        "qhint": "THIS IS THE HINT FOR QUESTION 6"
-    },
-    {
-        "qid": 7,
-        "qname": "WHAT IS THE CAPITAL OF INDIA",
-        "qopt1": "LUCKNOW",
-        "qopt2": "MUMBAI",
-        "qopt3": "VIZAG",
-        "qopt4": "DELHI",
-        "qans": "4",
-        "qhint": "THIS IS THE HINT FOR QUESTION 7"
-    },
-    
-    
-    {
-        "qid": 8,
-        "qname": "WHAT IS THE CAPTAL OF SRILANKA",
-        "qopt1": "DELHI",
-        "qopt2": "TOKYO",
-        "qopt3": "SYDNEY",
-        "qopt4": "COLOMBO",
-        "qans": "4",
-        "qhint": "THIS IS THE HINT FOR QUESTION 8"
-    },
-    {
-        "qid": 9,
-        "qname": "WHICH OF THE FOLLOWING BELONGS TO EYE",
-        "qopt1": "VITAMIN D",
-        "qopt2": "VITAMIN K",
-        "qopt3": "VITAMIN A",
-        "qopt4": "VITAMIN C",
-        "qans": "3",
-        "qhint": "THIS IS THE HINT FOR QUESTION 9"
-    },
-    
-    
-    {
-        "qid": 10,
-        "qname": "WHAT IS THE VALUE OF Pi",
-        "qopt1": "3.14",
-        "qopt2": "3.24",
-        "qopt3": "3.34",
-        "qopt4": "4.24",
-        "qans": "1",
-        "qhint": "THIS IS THE HINT FOR QUESTION 10"
-    },
-    {
-        "qid": 11,
-        "qname": "WHAT IS THE LARGEST RIVER IN INDIA",
-        "qopt1": "THAMES",
-        "qopt2": "NILE",
-        "qopt3": "AMAZON",
-        "qopt4": "GANGA",
-        "qans": "4",
-        "qhint": "THIS IS THE HINT FOR QUESTION 11"
-    },
-    
-    
-    {
-        "qid": 12,
-        "qname": "WHAT IS THE LARGEST CITY IN THE WORLD",
-        "qopt1": "DELHI",
-        "qopt2": "TOKYO",
-        "qopt3": "SYDNEY",
-        "qopt4": "MUMBAI",
-        "qans": "2",
-        "qhint": "THIS IS THE HINT FOR QUESTION 12"
-    },
-    {
-        "qid": 13,
-        "qname": "WHAT IS THE LARGEST RIVER IN THE WORLD",
-        "qopt1": "THAMES",
-        "qopt2": "NILE",
-        "qopt3": "AMAZON",
-        "qopt4": "GANGA",
-        "qans": "3",
-        "qhint": "THIS IS THE HINT FOR QUESTION 13"
-    },
-    
-    
-    {
-        "qid": 14,
-        "qname": "WHAT IS THE LARGEST SEA IN THE WORLD",
-        "qopt1": "PACIFIC",
-        "qopt2": "HINDU",
-        "qopt3": "AREBIA",
-        "qopt4": "NONE",
-        "qans": "1",
-        "qhint": "THIS IS THE HINT FOR QUESTION 14"
-    },
-    {
-        "qid": 15,
-        "qname": "WHAT IS THE LARGEST RIVER IN INDIA",
-        "qopt1": "THAMES",
-        "qopt2": "NILE",
-        "qopt3": "AMAZON",
-        "qopt4": "GANGA",
-        "qans": "4",
-        "qhint": "THIS IS THE HINT FOR QUESTION 15"
     }
-    
+
 ]
+    
