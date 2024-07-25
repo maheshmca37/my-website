@@ -247,13 +247,14 @@ function examSummaryReport(){
 
 
  // to save the details in data base... enaable this call
- //setExamResultToDatabase();
+ setExamResultToDatabase();
 
 }
 
 function setExamResultToDatabase(){
   // Retrieve username from localStorage
    studentName = localStorage.getItem('stdntname');
+   phoneno= localStorage.getItem('phoneno');
 
   const firebaseConfig = {
     apiKey: "AIzaSyAdwlJCdrMnKC_Pa4Lrtaq2yct8x3IC-ps",
@@ -274,7 +275,8 @@ const usersRef = database.ref(examName);
 // Example data to be inserted
 const userData = {
   name: studentName,
-  marks: CorrectdCount
+  marks: CorrectdCount,
+  phone: phoneno
 };
 
 // Push data to Firebase Realtime Database under "users" node
@@ -365,11 +367,18 @@ function setAnalysisNextQuestion ()
   if(selectdOptionVal>0){
     radios[selectdOptionVal-1].checked = true;
   }
+
+  for(var i = 0 ; i < radios.length; i++){
+    radios[i].disabled=true;
+  }
+
   //const hintbtn = document.getElementById("hint-btn");
  // hintbtn.innerHTML= loadedData[currentQuestionIndex].qhint;
 
   const tarea = document.getElementById("hintTextArea");
   tarea.value = loadedData[currentQuestionIndex].qhint;
+  tarea.setAttribute('readonly', 'readonly');
+
 
   const ansbtn = document.getElementById("ans-btn");
   ansbtn.innerHTML="ANSWER - OPTION:"+ loadedData[currentQuestionIndex].qans;
@@ -431,8 +440,19 @@ function setAnalysisData(){
   if (selectdOptionVal>0){
     radios[selectdOptionVal-1].checked = true;
   }
+  
+  for(var i = 0 ; i < radios.length; i++){
+    radios[i].disabled=true;
+  }
+
+
+
   //hintbtn.innerHTML= loadedData[currentQuestionIndex].qhint;
-  document.getElementById("hintTextArea").value = loadedData[currentQuestionIndex].qhint;
+  const tarea = document.getElementById("hintTextArea");
+  tarea.value = loadedData[currentQuestionIndex].qhint;
+  tarea.setAttribute('readonly', 'readonly');
+
+ // document.getElementById("hintTextArea").value = loadedData[currentQuestionIndex].qhint;
 
 
   ansbtn.innerHTML="ANSWER - OPTION:"+ loadedData[currentQuestionIndex].qans;

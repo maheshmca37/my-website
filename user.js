@@ -22,6 +22,10 @@ fetch('user.json')
 }
 
 
+document.getElementById('phone').addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '');
+});
+
 // script.js
 document.getElementById("loginForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent the form from submitting
@@ -37,6 +41,15 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
       alert("Invalid User");
     }
     
-
   });
+
+  function displayText() {
+    // Replace this with your dynamic text assignment logic
+    var dynamicText = "Hi....\n 1.Make sure your Internet good connectivity and battery\n 2.After completio of your exam download your response sheet";
+    dynamicText = dynamicText+"\n 3. Exam will be closed automatically once specified duration completed";
+
+    dynamicText = dynamicText+"\n 4. Timer is running down once you click on login and exam will starts immediatly"
+
+    alert(dynamicText);
+}
   
