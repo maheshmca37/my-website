@@ -1,7 +1,7 @@
 //const listE1 = document.querySelector('ul');
 
-let duration = 50;
-let maxQuestions=5;
+let duration = 1800;
+let maxQuestions=40;
 
 let currentQuestionIndex = 0;
 let loadedData = '';
@@ -118,7 +118,7 @@ for (let i = 1; i <= maxQuestions; i++) {
 const questionElement = document.getElementById("question");
 const nxtButton = document.getElementById("next-btn");
 
-const changeLang = document.getElementById("change-lang");
+//const changeLang = document.getElementById("change-lang");
 
 
 function startExam(loadedData){
@@ -159,7 +159,12 @@ document.getElementById("onxt-btn").onclick = setOnlyNextQuestion;
 document.getElementById("submit-btn").onclick = setAnalysisData;
 document.getElementById("anxt-btn").onclick = setAnalysisNextQuestion;
 
-document.getElementById("change-lang").onclick = setLanguage;
+
+// Enable and Disable For Telugu and English languages
+
+//document.getElementById("change-lang").onclick = setLanguage;
+const langSel = document.getElementById("change-lang");
+langSel.style.display= 'none';
 //document.getElementById("download-pdf").onclick = setDataForDownlaod;
 
 function setLanguage(){

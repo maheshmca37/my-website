@@ -4,8 +4,8 @@
         "examid":"vzmexam1",
         "usr": "m",
         "pwrd": "m",
-        "maxquestions":"5",
-        "duration": "50"
+        "maxquestions":"40",
+        "duration": "1800"
         
     }
 
