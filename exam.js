@@ -162,9 +162,9 @@ document.getElementById("anxt-btn").onclick = setAnalysisNextQuestion;
 
 // Enable and Disable For Telugu and English languages
 
-//document.getElementById("change-lang").onclick = setLanguage;
-const langSel = document.getElementById("change-lang");
-langSel.style.display= 'none';
+  document.getElementById("change-lang").onclick = setLanguage;
+// const langSel = document.getElementById("change-lang");
+// langSel.style.display= 'none';
 //document.getElementById("download-pdf").onclick = setDataForDownlaod;
 
 function setLanguage(){
@@ -331,7 +331,7 @@ const timerElement = document.getElementById('timer');
 
 document.getElementById('close-btn').addEventListener('click',()=> {
 
-  const userConfirmed = confirm("Are you sure to Close?");
+  const userConfirmed = confirm("Are you sure to Submit the Exam?");
   
   // Check the user's response
   if (userConfirmed) {
