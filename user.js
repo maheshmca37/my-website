@@ -45,10 +45,10 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
 
   function displayText() {
     // Replace this with your dynamic text assignment logic
-    var dynamicText = "Hi....\n 1.Make sure your Internet good connectivity and battery\n 2.After completio of your exam download your response sheet";
-    dynamicText = dynamicText+"\n 3. Exam will be closed automatically once specified duration completed";
+    var dynamicText = "Hi....\n 1.Make sure your INTERNET good connectivity and BATTERY\n 2.Your FIRST ATTEMPT of exam marks only saved ";
+    dynamicText = dynamicText+"\n 3. Exam will be CLOSED AUTOMATICALLY once specified duration completed";
 
-    dynamicText = dynamicText+"\n 4. Timer is running down once you click on login and exam will starts immediatly"
+    dynamicText = dynamicText+"\n 4. TIMER is running down once you click on login and EXAM WILL START immediatly \n 5.Download your Exam RESPONSE sheet"
 
     alert(dynamicText);
 }
