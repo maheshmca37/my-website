@@ -208,7 +208,9 @@ document.getElementById("download-pdf").addEventListener("click", function(event
 
 
     loadedData.forEach((q,index) => {
-      content.push({ text: `Q${q.qid}. ${q.qname}`, fontSize: 13 });
+      const formattedQName = q.qname.replace(/<br\s*\/?>/gi, '\n');
+
+      content.push({ text: `Q${q.qid}. ${formattedQName}`, fontSize: 13 });
       
       content.push({ text: `1. ${q.qopt1}`, fontSize: 12 });
       content.push({ text: `2. ${q.qopt2}`, fontSize: 12 });
@@ -249,7 +251,7 @@ function examSummaryReport(){
   const pdfbtn=document.getElementById("download-pdf");
   pdfbtn.style.display='inline';
   
-
+  showSubmitAlert();
 
  // to save the details in data base... enaable this call
  setExamResultToDatabase();
@@ -407,7 +409,29 @@ function setAnalysisNextQuestion ()
    }
 
 
+   // Example of calling the showAlert function
+  // showSubmitAlert();
+
+
 }
+
+// Function to show the alert with Yes/No options
+function showSubmitAlert() {
+  // Use confirm to show a dialog with Yes and No options
+  const userConfirmed = confirm("Your exam has compted..Do u want to downlod response sheet?");
+
+  // Check the user's response
+  if (userConfirmed) {
+    // User clicked "Yes"
+    const pdfbtn = document.getElementById("download-pdf");
+    pdfbtn.click();
+    
+  } else {
+    // User clicked "No"
+  }
+}
+
+
 
 function setAnalysisData(){
   let selectdOptionVal = 0;
