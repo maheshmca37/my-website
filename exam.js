@@ -418,7 +418,7 @@ function setAnalysisNextQuestion ()
 // Function to show the alert with Yes/No options
 function showSubmitAlert() {
   // Use confirm to show a dialog with Yes and No options
-  const userConfirmed = confirm("Your exam has compted..Do u want to downlod response sheet?");
+  const userConfirmed = confirm("Your exam has completed..Do u want to downlod response sheet?");
 
   // Check the user's response
   if (userConfirmed) {
