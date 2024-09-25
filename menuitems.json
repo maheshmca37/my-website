@@ -1,0 +1,237 @@
+{
+    "": [],
+    "cb": [
+        {
+            "item": "Basmathi_Rice",
+            "qty": "5"
+        },
+        {
+            "item": "Chicken",
+            "qty": "5"
+        },
+        {
+            "item": "Allam",
+            "qty": "0.5"
+        },
+        {
+            "item": "Vellulli",
+            "qty": "0.25"
+        },
+        {
+            "item": "Oil",
+            "qty": "3"
+        },
+        {
+            "item": "Ghee",
+            "qty": "0.25"
+        },
+        {
+            "item": "Food_Color",
+            "qty": "1"
+        },
+        {
+            "item": "Kaju",
+            "qty": "0.75"
+        },
+        {
+            "item": "Dasin_Chekka",
+            "qty": "0.2"
+        },
+        {
+            "item": "Elachi",
+            "qty": "0.1"
+        },
+        {
+            "item": "Lavanga",
+            "qty": "0.05"
+        },
+        {
+            "item": "Pacchi_Sanaga_Pappu",
+            "qty": "0.025"
+        },
+        {
+            "item": "Chintha_Pandu",
+            "qty": "1"
+        },
+        {
+            "item": "pasupu",
+            "qty": "0.25"
+        },
+        {
+            "item": "Karam",
+            "qty": "0.0125"
+        },
+        {
+            "item": "Kallupp",
+            "qty": "0.125"
+        },
+        {
+            "item": "Onion",
+            "qty": "1"
+        },
+        {
+            "item": "Dhaniyala_Podi",
+            "qty": "0.25"
+        },
+        {
+            "item": "ShaZeera",
+            "qty": "0.01"
+        },
+        {
+            "item": "Koothimeera",
+            "qty": "0.25"
+        },
+        {
+            "item": "Poodina",
+            "qty": "0.25"
+        },
+        {
+            "item": "Tomato",
+            "qty": "0.25"
+        },
+        {
+            "item": "Pacchi_Mirchi",
+            "qty": "1"
+        },
+        {
+            "item": "Vankaayalu",
+            "qty": "0.05"
+        },
+        {
+            "item": "NimmaKaayalu",
+            "qty": "2"
+        },
+        {
+            "item": "Curd",
+            "qty": "1"
+        },
+        {
+            "item": "Paalu",
+            "qty": "0.1"
+        }
+    ],
+    "mb": [
+        {
+            "item": "Basmathi_Rice",
+            "qty": "6"
+        },
+        {
+            "item": "Mutton",
+            "qty": "6"
+        },
+        {
+            "item": "Allam",
+            "qty": "0.15"
+        },
+        {
+            "item": "Vellulli",
+            "qty": "0.075"
+        },
+        {
+            "item": "Oil",
+            "qty": "2"
+        },
+        {
+            "item": "Ghee",
+            "qty": "0.05"
+        },
+        {
+            "item": "Food_Color",
+            "qty": "1"
+        },
+        {
+            "item": "Kaju",
+            "qty": "0.025"
+        },
+        {
+            "item": "Dasin_Chekka",
+            "qty": "0.01"
+        },
+        {
+            "item": "Elachi",
+            "qty": "0.01"
+        },
+        {
+            "item": "Lavanga",
+            "qty": "0.01"
+        },
+        {
+            "item": "Pacchi_Sanaga_Pappu",
+            "qty": "0.125"
+        },
+        {
+            "item": "Chintha_Pandu",
+            "qty": "1"
+        },
+        {
+            "item": "pasupu",
+            "qty": "0.5"
+        },
+        {
+            "item": "Karam",
+            "qty": "0.25"
+        },
+        {
+            "item": "Kallupp",
+            "qty": "1"
+        },
+        {
+            "item": "Onion",
+            "qty": "0.5"
+        },
+        {
+            "item": "Dhaniyala_Podi",
+            "qty": "0.25"
+        },
+        {
+            "item": "Koothimeera",
+            "qty": "0.25"
+        },
+        {
+            "item": "Poodina",
+            "qty": "0.25"
+        },
+        {
+            "item": "Tomato",
+            "qty": "0.25"
+        },
+        {
+            "item": "Pacchi_Mirchi",
+            "qty": "1.5"
+        },
+        {
+            "item": "Vankaayalu",
+            "qty": "0.05"
+        },
+        {
+            "item": "NimmaKaayalu",
+            "qty": "2"
+        },
+        {
+            "item": "Curd",
+            "qty": "2"
+        },
+        {
+            "item": "Paalu",
+            "qty": "0.1"
+        }
+    ],
+    "ccry": [
+        {
+            "item": "Chicken",
+            "qty": "5"
+        },
+        {
+            "item": "Oil",
+            "qty": "0.1"
+        },
+        {
+            "item": "Curd",
+            "qty": "1"
+        },
+        {
+            "item": "Onion",
+            "qty": "1"
+        }
+    ]
+}

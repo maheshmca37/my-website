@@ -1,0 +1,96 @@
+#config-item,#add-event{
+    background: #001e4d;
+    color: #fff;
+    font-weight: 500;
+    width: 140px;
+    border: 0;
+    padding: 10px;
+    margin: 20px auto 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.menu-item {
+    padding: 5px;
+    margin-bottom: 8px;
+    background-color: #e9dede9f;
+    border-radius: 5px;
+}
+.sub-item-wrapper {
+    border: 1px solid #0c0606; /* Border around the item and its sub-items */
+    padding: 10px;          /* Padding inside the border */
+    margin-top: 10px;      /* Margin for separation */
+    border-radius: 5px;    /* Rounded corners */
+    background-color: #e7dada; /* Slightly different background color */
+}
+
+.event-add {
+    display: none; /* Hide form by default */
+    margin-top: 20px;
+}
+.event-add {
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 3px;
+    background-color: #f0f0f0;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#breakfast-btn,#lunch-btn,#snacks-btn,#dinner-btn,#menu-final-btn{
+    background: #001e4d;
+    color: #fff;
+    font-weight: 500;
+    width: 90px;
+    border: 0;
+    padding: 10px;
+    margin: 20px auto 0;
+    border-radius: 4px;
+    cursor: pointer;
+
+}
+
+.event-add h2 {
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.event-add form {
+    display: grid;
+    gap: 2px;
+}
+
+.event-add label {
+    font-weight: bold;
+}
+
+.event-add input[type="date"],
+.event-add input[type="text"],
+.event-add input[type="number"],
+.event-add textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+.event-add textarea {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.event-add button[type="submit"] {
+    background-color: #001e4d;
+    color: #fff;
+    font-weight: 500;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.event-add button[type="submit"]:hover {
+    background-color: #004080;
+}

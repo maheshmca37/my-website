@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Form</title>                                 
+<link rel="stylesheet" href="event.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<style>
+  .collapsible {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+  .content {
+    padding: 10px;
+    display: none;
+    border: 1px solid #ddd;
+    border-top: none;
+    background-color: #f1f1f1;
+  }
+</style>
+</head>
+<body>
+
+<div class="event-container">
+  <h2>EVENT MANAGER</h2>
+  <form id="eventform">
+    <button id="config-item" type="button"> CONFIGURE ITEM</button> <br> <br>
+    <button id="add-event" type="button"> ADD EVENT</button>
+
+    <div class="sessionitems" id="sessionbts">
+      <button id="breakfast-btn" type="button" > BREAKFAST</button>
+      <button id="lunch-btn" type="button"  >LUNCH</button>
+      <button id="snacks-btn" type="button" >SNACKS</button>
+      <button id="dinner-btn" type="button" >DINNER</button>  
+      <button id="menu-final-btn" type="button" >Final Submit Menu</button>  <br><br>
+      <label id="session-capt" style="display: none;"> Add Items By Selecting Session</label>
+    </div>
+    
+    <div id="lunch-items" style="display: none;">
+      <br>
+      <div class="collapsible" id="veg-main-label"> VEG MAIN</div>
+      <div class="content" id="veg-main-content">
+        <div class="menu-item">
+          <label>
+            <img src="./bir1.jpg" alt="VEG Biryani" class="item-image">
+            <input type="checkbox" id="veg-biriyani" data-input-id="veg-biriyani"> VEG Biryani &nbsp &nbsp &nbsp People 
+          </label>
+          <input type="number" id="pc-veg-biriyani" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+          <div class="sub-item">
+            <label>
+              <img src="./bir1.jpg" alt="khatta" class="item-image">
+              <input type="checkbox" id="khatta"> i. Khatta
+            </label>
+            <input type="number" id="pc-khatta" placeholder="No. of people" style="width: 50px;">
+            <label>
+              <img src="./bir1.jpg" alt="kachembry" class="item-image">
+              <input type="checkbox" id="kachembry"> ii. Kachembry
+            </label>
+            <input type="number" id="pc-kachembry" placeholder="No. of people" style="width: 50px;">
+            <label>
+              <img src="./bir1.jpg" alt="iguru" class="item-image">
+              <input type="checkbox" id="veg-bir-sambar"> iii. Sambar
+            </label>
+            <input type="number" id="pc-veg-bir-sambar" placeholder="No. of people" style="width: 50px;">
+          </div>
+        </div>
+        <div class="menu-item">
+          <label>
+            <img src="./bir1.jpg" alt="Rice" class="item-image">
+            <input type="checkbox" id="lunch-rice" data-input-id="lunch-rice"> Rice1
+          </label>
+          <input type="number" id="pc-lunch-rice" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+          <div class="sub-item">
+            <label>
+              <img src="./bir1.jpg" alt="sambar" class="item-image">
+              <input type="checkbox" id="rice-sambar"> i. Sambar
+            </label>
+            <label>
+              <img src="./bir1.jpg" alt="rasam" class="item-image">
+              <input type="checkbox" id="rice-rasam"> ii. Rasam
+            </label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="collapsible" id="veg-curries-label"> VEG CURRIES</div>
+      <div class="content" id="veg-curries-content">
+        <div class="menu-item">
+            <label>
+              <img src="./bir1.jpg" alt="POTATO FRY" class="item-image">
+              <input type="checkbox" id="ptfry" name="cb_l"> POTATO FRY
+            </label>
+            <input type="number" id="pc-ptfry" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+        </div>
+        <div class="menu-item">
+            <label>
+              <img src="./bir1.jpg" alt="VANKAY FRY" class="item-image">
+              <input type="checkbox" id="vanfry" name="vanfry"> VANKAY FRY
+            </label>
+            <input type="number" id="pc-vanfry" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+        </div>
+      </div>
+       <br>
+      <div class="collapsible" id="nonveg-main-label"> NONVEG MAIN</div>
+      <div class="content" id="nonveg-main-content">
+        <div class="menu-item">
+          <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="cb_l" onchange="togglePeopleCount(this,'pc-cb_l')"> Chicken Biryani
+          </label>
+          <input type="number" id="pc-cb_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+          <div class="sub-item">
+            <label>
+              <img src="./bir1.jpg" alt="khatta" class="item-image">
+              <input type="checkbox"> i. Khatta
+            </label>
+            <label>
+              <img src="./bir1.jpg" alt="kachembry" class="item-image">
+              <input type="checkbox"> ii. Kachembry
+            </label>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="mb_l" onchange="togglePeopleCount(this,'pc-mb_l')"> Mutton Biryani
+          </label>
+          <input type="number" id="pc-mb_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+          <div class="sub-item">
+            <label>
+              <img src="./bir1.jpg" alt="sambar" class="item-image">
+              <input type="checkbox"> i. Sambar
+            </label>
+            <label>
+              <img src="./bir1.jpg" alt="rasam" class="item-image">
+              <input type="checkbox"> ii. Rasam
+            </label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="collapsible" id="nonveg-curries-label"> NONVEG CURRIES</div>
+      <div class="content" id="nonveg-curries-content">
+        <div class="menu-item">
+          <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="chcry_l" onchange="togglePeopleCount(this,'pc-chcry_l')"> Chicken Curry
+          </label>
+          <input type="number" id="pc-chcry_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+          </div>
+        <div class="menu-item">
+            <label>
+              <img src="./bir1.jpg" alt="PRAWAN FRY" class="item-image">
+              <input type="checkbox" id="prwnfry" name="prwnfry"> PRAWN FRY
+            </label>
+            <input type="number" id="pc-prwnfry" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+        </div>
+      </div>
+       <br>
+        
+      <div class="collapsible" id="other-lunch-label"> OTHER ITEMS FOR LUNCH</div>
+      <div class="content" id="other-lunch-content">
+        <div class="menu-item">
+            <label>
+              <img src="./bir1.jpg" alt="S" class="item-image">
+              <input type="checkbox" id="gulab_l"> GULAB JAMUN
+            </label>
+            <input type="number" id="pc-gulab_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+        </div>
+        <div class="menu-item">
+            <label>
+              <img src="./bir1.jpg" alt="k" class="item-image">
+              <input type="checkbox" id="ppds_l">PAPADS
+            </label>
+            <input type="number" id="pc-ppds_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+        </div>
+    </div>
+     <br>
+     <div class="collapsible" id="icecream-lunch-label"> ICECREAMS FOR LUNCH</div>
+      <div class="content" id="icecream-lunch-content">
+        <div class="menu-item">
+            <label>
+              <img src="./bir1.jpg" alt="S" class="item-image">
+              <input type="checkbox" id="btrsc_l"> BUTTER SCOTCH
+            </label>
+            <input type="number" id="pc-btrsc_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+        </div>
+        <div class="menu-item">
+            <label>
+              <img src="./bir1.jpg" alt="k" class="item-image">
+              <input type="checkbox" id="chcklt_l">CHOCKLATE
+            </label>
+            <input type="number" id="pc-chcklt_l" placeholder="No. of people" style="width: 50px;" >
+        </div>
+    </div>
+     
+
+
+    </div> 
+     
+    
+  <div id="breakfast-items" style="display: none;">
+    <div class="collapsible" id="brkf-label"> TIFINS</div>
+      <div class="content" id="brkf-content">
+      
+    <div class="menu-item">
+        <label>
+            <img src="./images/bir1.jpg" alt="idly" class="item-image">
+            <input type="checkbox"> idly
+        </label>
+        <input type="number" id="PeopleCountcb" placeholder="No. of people" >  <br> <br> <br>
+        <div class="sub-item">
+            <label>
+                <img src="./images/bir1.jpg" alt="tomato chutney" class="item-image">
+                <input type="checkbox"> i. Tomato Chutney
+            </label>
+            <label>
+                <img src="./images/bir1.jpg" alt="sambar" class="item-image">
+                <input type="checkbox"> ii. sambar
+            </label>
+            <label>
+                <img src="./images/bir1.jpg" alt="palukulu chutney" class="item-image">
+                <input type="checkbox"> iii. Palukulu Chutney
+            </label>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <label>
+            <img src="./images/bir1.jpg" alt="upma" class="item-image">
+            <input type="checkbox"> upma
+        </label>
+        <input type="number" id="PeopleCountrice" placeholder="No. of people" >  <br> <br> <br>
+        <div class="sub-item">
+            <label>
+                <img src="./images/bir1.jpg" alt="sambar" class="item-image">
+                <input type="checkbox"> i. saambar
+            </label>
+            <label>
+                <img src="./images/bir1.jpg" alt="palukulu chutney" class="item-image">
+                <input type="checkbox"> ii. palukulu chutney
+            </label>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div id="snack-items" style="display: none;">
+    <div class="collapsible" id="snacks-label"> SNACKS</div>
+      <div class="content" id="snacks-content">
+    <div class="menu-item">
+        <label>
+            <img src="./images/bir1.jpg" alt="noodles" class="item-image">
+            <input type="checkbox"> Noodles
+        </label>
+        <input type="number" id="PeopleCountnoodles" placeholder="No. of people" > <br> <br> <br>
+        <div class="sub-item">
+            <label>
+                <img src="./images/bir1.jpg" alt="tomato saas" class="item-image">
+                <input type="checkbox"> i. Tomato saas
+            </label>
+            <label>
+                <img src="./images/bir1.jpg" alt="chilli saas" class="item-image">
+                <input type="checkbox"> ii. Chilli Saas
+            </label>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <label>
+            <img src="./images/bir1.jpg" alt="samosa" class="item-image">
+            <input type="checkbox"> Samosa
+        </label>
+        <input type="number" id="PeopleCountricedinner" placeholder="No. of people" > <br> <br> <br>
+        <div class="sub-item">
+            <label>
+                <img src="./images/bir1.jpg" alt="tomato saas" class="item-image">
+                <input type="checkbox"> i. Tomato Saas
+            </label>
+            <label>
+                <img src="./images/bir1.jpg" alt="chilli saas" class="item-image">
+                <input type="checkbox"> ii. Chilli saas
+            </label>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div id="dinner-items" style="display: none;">
+    <div class="collapsible" id="dinner-label"> NONVEG MAIN</div>
+      <div class="content" id="dinner-content">
+    <div class="menu-item">
+        <label>
+            <img src="./images/bir1.jpg" alt="Chicken Biryani" class="item-image">
+            <input type="checkbox"> Chicken Biryani
+        </label>
+        <input type="number" id="PeopleCountcbdinner" placeholder="No. of people" >  <br> <br> <br>
+        <div class="sub-item">
+            <label>
+                <img src="./images/bir1.jpg" alt="khatta" class="item-image">
+                <input type="checkbox"> i. Khatta
+            </label>
+            <label>
+                <img src="./images/bir1.jpg" alt="daal" class="item-image">
+                <input type="checkbox"> ii. Daal
+            </label>
+            <label>
+                <img src="./images/bir1.jpg" alt="iguru" class="item-image">
+                <input type="checkbox"> iii. iguru
+            </label>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <label>
+            <img src="./images/bir1.jpg" alt="Rice" class="item-image">
+            <input type="checkbox"> Rice
+        </label>
+        <input type="number" id="PeopleCountricedinner" placeholder="No. of people" >  <br> <br> <br>
+        <div class="sub-item">
+            <label>
+                <img src="./images/bir1.jpg" alt="sambar" class="item-image">
+                <input type="checkbox"> i. saambar
+            </label>
+            <label>
+                <img src="./images/bir1.jpg" alt="rasam" class="item-image">
+                <input type="checkbox"> ii. rasam
+            </label>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+  </form>
+</div>
+
+<div class="event-add">
+  <h2>Enter Event Details</h2>
+  <form id="event-addform">
+    <label for="event-date">Event Date:</label>
+    <input type="date" id="event-date" name="event-date"><br><br>
+
+    <label for="event-name">Event Name:</label>
+    <input type="text" id="event-name" name="event-name" required><br><br>
+
+    <label for="venue">Venue:</label>
+    <input type="text" id="venue" name="venue"><br><br>
+
+    <label for="phone-no">Your Phone No:</label>
+    <input type="text" id="phone-no" name="phone-no"><br><br>
+
+    <label for="no-of-people">No. of People for Event:</label>
+    <input type="number" id="total-people-count" name="no-of-people"><br><br>
+
+    <label for="notes">Notes:</label>
+    <textarea id="notes" name="notes" rows="4"></textarea><br><br><br><br>
+
+    <button id="confirmevent-btn" type="button">Add Event</button>
+  </form>
+</div>
+
+<script src="event.js"></script>
+<script>
+  // JavaScript to handle expand/collapse
+  document.addEventListener("DOMContentLoaded", function() {
+    var collapsibleLabels = document.querySelectorAll(".collapsible");
+
+    collapsibleLabels.forEach(function(label) {
+      label.addEventListener("click", function() {
+        var content = document.getElementById(label.id.replace("label", "content"));
+        if (content.style.display === "none" || content.style.display === "") {
+          content.style.display = "block";
+        } else {
+          content.style.display = "none";
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
