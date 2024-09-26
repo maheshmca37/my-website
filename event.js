@@ -4,6 +4,10 @@ let rawItemsListforTotal = [];
 let ssnBtnsStatus = '0';
 let SelectedMenuItemsList = [];
 let peopleCount = 0;
+let eventdate = '';
+let eventname = '';
+let eventvenue = '';
+let eventphone = '0';
 
 
 function loadmenuitems() {
@@ -185,10 +189,10 @@ function setSelectedMenuItems(){
   });
 
   // Convert the map to the desired array format
-  const SelectedMenuItemsList = Array.from(itemMap, ([iname, pcount]) => ({ iname, pcount }));
+   SelectedMenuItemsList = Array.from(itemMap, ([iname, pcount]) => ({ iname, pcount }));
 
   const result = aggregateRawItems(SelectedMenuItemsList, menuItemsList);
-  generatePDF(result);
+  generatePDF(result,SelectedMenuItemsList);
 }
 
 // Helper function to get item name and quantity in proper format
@@ -230,15 +234,31 @@ const aggregateRawItems = (selectedMenuItems, menuItemsList) => {
   return rawItemsListConfig;
 };
 
-function generatePDF(rawItemsListConfig) {
-  // Event.preventDefault(); // Prevent the default form submission or link behavior
-
+function generatePDF(rawItemsListConfig, SelectedMenuItemsList) {
   // Prepare the content for the PDF
   const content = [];
-  
-  // Define the table structure
+
+  // Define the table structure for selected items
+  const selectedItemsTableBody = [
+    // Table headers for selected items
+    [
+      { text: 'SNO', style: 'tableHeader' },
+      { text: 'Item Name', style: 'tableHeader' },
+      { text: 'People Count', style: 'tableHeader' }
+    ]
+  ];
+
+  SelectedMenuItemsList.forEach((item, index) => {
+    selectedItemsTableBody.push([
+      { text: (index + 1).toString(), style: 'tableData' },
+      { text: item.iname, style: 'tableData' },
+      { text: item.pcount.toString(), style: 'tableData' }
+    ]);
+  });
+
+  // Define the table structure for raw items
   const tableBody = [
-    // Table headers
+    // Table headers for raw items
     [
       { text: 'SNO', style: 'tableHeader' },
       { text: 'Name', style: 'tableHeader' },
@@ -247,24 +267,38 @@ function generatePDF(rawItemsListConfig) {
   ];
 
   rawItemsListConfig.forEach((item, index) => {
-    // Use regex to match the name and the text inside parentheses
     const nameMatch = item.name.match(/(.+?)\s*\(.+?\)/);
-    const itemName = nameMatch ? nameMatch[1].trim() : item.name; // Get the name without parentheses
-    const qtyAddition = nameMatch ? item.name.match(/\((.+?)\)/)[1] : ''; // Get the text inside parentheses
+    const itemName = nameMatch ? nameMatch[1].trim() : item.name; 
+    const qtyAddition = nameMatch ? item.name.match(/\((.+?)\)/)[1] : ''; 
     
-    // Update item.qty by appending the removed string
-    const updatedQty = item.qty +"  (" +(qtyAddition ? ` ${qtyAddition}` : '')+")";
+    const updatedQty = item.qty + "  (" + (qtyAddition ? ` ${qtyAddition}` : '') + ")";
 
     tableBody.push([
-        { text: (index + 1).toString(), style: 'tableData' },
-        { text: itemName, style: 'tableData' },
-        { text: updatedQty.toString(), style: 'tableData' }
+      { text: (index + 1).toString(), style: 'tableData' },
+      { text: itemName, style: 'tableData' },
+      { text: updatedQty.toString(), style: 'tableData' }
     ]);
-});
+  });
 
-  // Define the document definition with a table
+  // Define the document definition with both tables
   const docDefinition = { 
     content: [
+      { text: 'EVENT DETAILS', fontSize: 19, bold: true, margin: [0, 7] },
+      { text: 'EVENT DATE: '+eventdate, fontSize: 19, bold: true, margin: [0, 7]},
+      { text: 'EVENT NAME: '+eventname, fontSize: 19, bold: true, margin: [0, 7] },
+      { text: 'VENUE: '+eventvenue, fontSize: 19, bold: true, margin: [0, 7]},
+      { text: 'PHONE: '+eventphone, fontSize: 19, bold: true, margin: [0, 7]},
+      { text: '', margin: [0, 30] }, // Adds some space
+      { text: 'Selected Menu Items',fontSize: 18, bold: true, margin: [0, 10] }, 
+      { text: '', margin: [0, 8] }, // Adds some space
+      {
+        table: {
+          headerRows: 1,
+          body: selectedItemsTableBody
+        },
+        layout: 'lightHorizontalLines' // Optional: adds horizontal lines
+      },
+      { text: '', margin: [0, 20] }, // Adds some space
       { text: 'Item List', fontSize: 18, bold: true, margin: [0, 20] },
       {
         table: {
@@ -279,6 +313,7 @@ function generatePDF(rawItemsListConfig) {
   // Generate and download the PDF
   pdfMake.createPdf(docDefinition).download('items_list.pdf');
 }
+
 
 
 function setMealSessionData(){
@@ -326,6 +361,10 @@ function togglePeopleCount(checkbox, inputId) {
 function setDefaultPeopleCountToAllMenus() {
   // Get the value from the PeopleCountcb input field
   peopleCount = document.getElementById('total-people-count').value;
+  eventdate = document.getElementById('event-date').value;
+  eventname = document.getElementById('event-name').value;
+  eventvenue = document.getElementById('event-venue').value;
+  eventphone = document.getElementById('phone-no').value;
 
   // Store this value in a variable
   const defaultValue = 0;
