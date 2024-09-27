@@ -8,6 +8,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+
+
 <style>
   .collapsible {
     cursor: pointer;
@@ -47,44 +52,41 @@
       <div class="collapsible" id="veg-main-label"> VEG MAIN</div>
       <div class="content" id="veg-main-content">
         <div class="menu-item">
-          <label>
-            <img src="./bir1.jpg" alt="VEG Biryani" class="item-image">
-            <input type="checkbox" id="veg-biriyani" data-input-id="veg-biriyani"> VEG Biryani &nbsp &nbsp &nbsp People 
+            <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="vegbiryani_l" onchange="togglePeopleCount(this,'pc-vegbiryani_l')"> veg biryani
           </label>
-          <input type="number" id="pc-veg-biriyani" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
-          <div class="sub-item">
-            <label>
-              <img src="./bir1.jpg" alt="khatta" class="item-image">
-              <input type="checkbox" id="khatta"> i. Khatta
-            </label>
-            <input type="number" id="pc-khatta" placeholder="No. of people" style="width: 50px;">
-            <label>
-              <img src="./bir1.jpg" alt="kachembry" class="item-image">
-              <input type="checkbox" id="kachembry"> ii. Kachembry
-            </label>
-            <input type="number" id="pc-kachembry" placeholder="No. of people" style="width: 50px;">
-            <label>
-              <img src="./bir1.jpg" alt="iguru" class="item-image">
-              <input type="checkbox" id="veg-bir-sambar"> iii. Sambar
-            </label>
-            <input type="number" id="pc-veg-bir-sambar" placeholder="No. of people" style="width: 50px;">
+          <input type="number" id="pc-vegbiryani_l" placeholder="No. of people" style="width: 50px;"> <br> <br><br>
+        <div class="sub-item">
+          <label>
+            <input type="checkbox" id="khatta_l" onchange="togglePeopleCount(this,'pc-khatta_l')"> khatta
+          </label>
+          <input type="number" id="pc-khatta_l" placeholder="No. of people" style="width: 50px;"> 
+          <label>
+            <input type="checkbox" id="kachembry_l" onchange="togglePeopleCount(this,'pc-kachembry_l')"> kachembry
+          </label>
+          <input type="number" id="pc-kachembry_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
           </div>
         </div>
         <div class="menu-item">
-          <label>
-            <img src="./bir1.jpg" alt="Rice" class="item-image">
-            <input type="checkbox" id="lunch-rice" data-input-id="lunch-rice"> Rice1
+            <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="rice_l" onchange="togglePeopleCount(this,'pc-rice_l')"> Rice
           </label>
-          <input type="number" id="pc-lunch-rice" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+          <input type="number" id="pc-rice_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
           <div class="sub-item">
             <label>
-              <img src="./bir1.jpg" alt="sambar" class="item-image">
-              <input type="checkbox" id="rice-sambar"> i. Sambar
+    
+              <input type="checkbox" id="sambar_l" onchange="togglePeopleCount(this,'pc-sambar_l')"> Samabar
             </label>
+            <input type="number" id="pc-sambar_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+           
             <label>
-              <img src="./bir1.jpg" alt="rasam" class="item-image">
-              <input type="checkbox" id="rice-rasam"> ii. Rasam
+          
+              <input type="checkbox" id="rasam_l" onchange="togglePeopleCount(this,'pc-rasam_l')"> Rice
             </label>
+            <input type="number" id="pc-rasam_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+            
           </div>
         </div>
       </div>
@@ -92,18 +94,18 @@
       <div class="collapsible" id="veg-curries-label"> VEG CURRIES</div>
       <div class="content" id="veg-curries-content">
         <div class="menu-item">
-            <label>
-              <img src="./bir1.jpg" alt="POTATO FRY" class="item-image">
-              <input type="checkbox" id="ptfry" name="cb_l"> POTATO FRY
-            </label>
-            <input type="number" id="pc-ptfry" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
-        </div>
+          <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="potatofry_l" onchange="togglePeopleCount(this,'pc-potatofry_l')"> Potato Fry
+          </label>
+          <input type="number" id="pc-potatofry_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+          </div>
         <div class="menu-item">
-            <label>
-              <img src="./bir1.jpg" alt="VANKAY FRY" class="item-image">
-              <input type="checkbox" id="vanfry" name="vanfry"> VANKAY FRY
-            </label>
-            <input type="number" id="pc-vanfry" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+          <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="vankfry_l" onchange="togglePeopleCount(this,'pc-vankfry_l')"> vankay fry
+          </label>
+          <input type="number" id="pc-vankfry_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
         </div>
       </div>
        <br>
@@ -117,13 +119,15 @@
           <input type="number" id="pc-cb_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
           <div class="sub-item">
             <label>
-              <img src="./bir1.jpg" alt="khatta" class="item-image">
-              <input type="checkbox"> i. Khatta
+            
+              <input type="checkbox" id="khattacb_l" onchange="togglePeopleCount(this,'pc-khattacb_l')"> khatta
             </label>
+            <input type="number" id="pc-kattacb_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
             <label>
-              <img src="./bir1.jpg" alt="kachembry" class="item-image">
-              <input type="checkbox"> ii. Kachembry
+            
+              <input type="checkbox" id="kachembrycb_l" onchange="togglePeopleCount(this,'pc-kachembrycb_l')"> kachembry
             </label>
+            <input type="number" id="pc-kachembrycb_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
           </div>
         </div>
 
@@ -135,13 +139,10 @@
           <input type="number" id="pc-mb_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
           <div class="sub-item">
             <label>
-              <img src="./bir1.jpg" alt="sambar" class="item-image">
-              <input type="checkbox"> i. Sambar
+            
+              <input type="checkbox" id="kachembrymb_l" onchange="togglePeopleCount(this,'pc-kachembrymb_l')">kachembry
             </label>
-            <label>
-              <img src="./bir1.jpg" alt="rasam" class="item-image">
-              <input type="checkbox"> ii. Rasam
-            </label>
+            <input type="number" id="pc-kachembrymb_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
           </div>
         </div>
       </div>
@@ -151,189 +152,140 @@
         <div class="menu-item">
           <label>
             <img src="./bir1.jpg"  class="item-image">
-            <input type="checkbox" id="chcry_l" onchange="togglePeopleCount(this,'pc-chcry_l')"> Chicken Curry
+            <input type="checkbox" id="chickennfry_l" onchange="togglePeopleCount(this,'pc-chickenfry_l')"> chicken fry
           </label>
-          <input type="number" id="pc-chcry_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+          <input type="number" id="pc-chickenfry_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+
           </div>
-        <div class="menu-item">
-            <label>
-              <img src="./bir1.jpg" alt="PRAWAN FRY" class="item-image">
-              <input type="checkbox" id="prwnfry" name="prwnfry"> PRAWN FRY
-            </label>
-            <input type="number" id="pc-prwnfry" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
-        </div>
+        
       </div>
        <br>
         
       <div class="collapsible" id="other-lunch-label"> OTHER ITEMS FOR LUNCH</div>
       <div class="content" id="other-lunch-content">
         <div class="menu-item">
-            <label>
-              <img src="./bir1.jpg" alt="S" class="item-image">
-              <input type="checkbox" id="gulab_l"> GULAB JAMUN
-            </label>
-            <input type="number" id="pc-gulab_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
-        </div>
-        <div class="menu-item">
-            <label>
-              <img src="./bir1.jpg" alt="k" class="item-image">
-              <input type="checkbox" id="ppds_l">PAPADS
-            </label>
-            <input type="number" id="pc-ppds_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+          <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="gulabjam_l" onchange="togglePeopleCount(this,'pc-gulabjam_l')"> gulab jam
+          </label>
+          <input type="number" id="pc-gulabjam_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
         </div>
     </div>
      <br>
      <div class="collapsible" id="icecream-lunch-label"> ICECREAMS FOR LUNCH</div>
       <div class="content" id="icecream-lunch-content">
         <div class="menu-item">
-            <label>
-              <img src="./bir1.jpg" alt="S" class="item-image">
-              <input type="checkbox" id="btrsc_l"> BUTTER SCOTCH
-            </label>
-            <input type="number" id="pc-btrsc_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+          <label>
+            <img src="./bir1.jpg"  class="item-image">
+            <input type="checkbox" id="chocklate_l" onchange="togglePeopleCount(this,'pc-chocklate_l')"> chocklate
+          </label>
+          <input type="number" id="pc-chocklate_l" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
         </div>
-        <div class="menu-item">
-            <label>
-              <img src="./bir1.jpg" alt="k" class="item-image">
-              <input type="checkbox" id="chcklt_l">CHOCKLATE
-            </label>
-            <input type="number" id="pc-chcklt_l" placeholder="No. of people" style="width: 50px;" >
-        </div>
-    </div>
+      </div>
      
+  </div> 
+</div>  
+   
 
-
-    </div> 
-     
-    
   <div id="breakfast-items" style="display: none;">
     <div class="collapsible" id="brkf-label"> TIFINS</div>
       <div class="content" id="brkf-content">
       
     <div class="menu-item">
+      <label>
+        <img src="./bir1.jpg"  class="item-image">
+        <input type="checkbox" id="idly_b " onchange="togglePeopleCount(this,'pc-idly_b')"> idly
+      </label>
+      <input type="number" id="idly_b" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+      <div class="sub-item">
         <label>
-            <img src="./images/bir1.jpg" alt="idly" class="item-image">
-            <input type="checkbox"> idly
+          
+          <input type="checkbox" id="tomatochutney_b "onchange="togglePeopleCount(this,'pc-tomatochutney_b')"> tomato chutney
         </label>
-        <input type="number" id="PeopleCountcb" placeholder="No. of people" >  <br> <br> <br>
-        <div class="sub-item">
-            <label>
-                <img src="./images/bir1.jpg" alt="tomato chutney" class="item-image">
-                <input type="checkbox"> i. Tomato Chutney
-            </label>
-            <label>
-                <img src="./images/bir1.jpg" alt="sambar" class="item-image">
-                <input type="checkbox"> ii. sambar
-            </label>
-            <label>
-                <img src="./images/bir1.jpg" alt="palukulu chutney" class="item-image">
-                <input type="checkbox"> iii. Palukulu Chutney
-            </label>
-        </div>
-    </div>
-
-    <div class="menu-item">
+        <input type="number" id="tomatochutney_b "onchange" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
         <label>
-            <img src="./images/bir1.jpg" alt="upma" class="item-image">
-            <input type="checkbox"> upma
+          
+          <input type="checkbox" id="sambar" onchange="togglePeopleCount(this,'pc-sambar_b')">sambar
         </label>
-        <input type="number" id="PeopleCountrice" placeholder="No. of people" >  <br> <br> <br>
-        <div class="sub-item">
-            <label>
-                <img src="./images/bir1.jpg" alt="sambar" class="item-image">
-                <input type="checkbox"> i. saambar
-            </label>
-            <label>
-                <img src="./images/bir1.jpg" alt="palukulu chutney" class="item-image">
-                <input type="checkbox"> ii. palukulu chutney
-            </label>
-        </div>
+        <input type="number" id="pc-sambar_b" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+        <label>
+          
+          <input type="checkbox" id="palukuluchutney" onchange="togglePeopleCount(this,'pc-palukuluchutney_b')">palukulu chutney
+        </label>
+        <input type="number" id="pc-palukuluchutney_b" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+</div>
     </div>
-    </div>
+</div>
 </div>
 
 <div id="snack-items" style="display: none;">
     <div class="collapsible" id="snacks-label"> SNACKS</div>
       <div class="content" id="snacks-content">
     <div class="menu-item">
+      <label>
+        <img src="./bir1.jpg"  class="item-image">
+        <input type="checkbox" id="noodles_s" onchange="togglePeopleCount(this,'pc-noodles_s')"> noodles
+      </label>
+      <input type="number" id="pc-noodles_s" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+      <div class="sub-item">
         <label>
-            <img src="./images/bir1.jpg" alt="noodles" class="item-image">
-            <input type="checkbox"> Noodles
+      
+          <input type="checkbox" id="tomatosass_s" onchange="togglePeopleCount(this,'pc-tomatosass_s')"> tomato sass
         </label>
-        <input type="number" id="PeopleCountnoodles" placeholder="No. of people" > <br> <br> <br>
-        <div class="sub-item">
-            <label>
-                <img src="./images/bir1.jpg" alt="tomato saas" class="item-image">
-                <input type="checkbox"> i. Tomato saas
-            </label>
-            <label>
-                <img src="./images/bir1.jpg" alt="chilli saas" class="item-image">
-                <input type="checkbox"> ii. Chilli Saas
-            </label>
-        </div>
-    </div>
-
-    <div class="menu-item">
+        <input type="number" id="pc-tomatosass_s" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
         <label>
-            <img src="./images/bir1.jpg" alt="samosa" class="item-image">
-            <input type="checkbox"> Samosa
+        
+          <input type="checkbox" id="chillisaas_s" onchange="togglePeopleCount(this,'pc-chillisaas_s')"> chilli saas
         </label>
-        <input type="number" id="PeopleCountricedinner" placeholder="No. of people" > <br> <br> <br>
-        <div class="sub-item">
-            <label>
-                <img src="./images/bir1.jpg" alt="tomato saas" class="item-image">
-                <input type="checkbox"> i. Tomato Saas
-            </label>
-            <label>
-                <img src="./images/bir1.jpg" alt="chilli saas" class="item-image">
-                <input type="checkbox"> ii. Chilli saas
-            </label>
-        </div>
+        <input type="number" id="pc-chillisaas_s" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+</div>
     </div>
-    </div>
+ </div>
 </div>
 
 <div id="dinner-items" style="display: none;">
     <div class="collapsible" id="dinner-label"> NONVEG MAIN</div>
       <div class="content" id="dinner-content">
     <div class="menu-item">
-        <label>
-            <img src="./images/bir1.jpg" alt="Chicken Biryani" class="item-image">
-            <input type="checkbox"> Chicken Biryani
-        </label>
-        <input type="number" id="PeopleCountcbdinner" placeholder="No. of people" >  <br> <br> <br>
-        <div class="sub-item">
-            <label>
-                <img src="./images/bir1.jpg" alt="khatta" class="item-image">
-                <input type="checkbox"> i. Khatta
-            </label>
-            <label>
-                <img src="./images/bir1.jpg" alt="daal" class="item-image">
-                <input type="checkbox"> ii. Daal
-            </label>
-            <label>
-                <img src="./images/bir1.jpg" alt="iguru" class="item-image">
-                <input type="checkbox"> iii. iguru
-            </label>
-        </div>
+      <label>
+        <img src="./bir1.jpg"  class="item-image">
+        <input type="checkbox" id="cb_d" onchange="togglePeopleCount(this,'pc-cb_d')"> Chicken Biryani
+      </label>
+      <input type="number" id="pc-cb_d" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+     <div class="sub-item">
+      <label>
+  
+        <input type="checkbox" id="Khatta_d" onchange="togglePeopleCount(this,'pc-Khatta_d')"> Khatta
+      </label>
+      <input type="number" id="pc-Khatta_d" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+      <label>
+    
+        <input type="checkbox" id="Daal_d" onchange="togglePeopleCount(this,'pc-Daal_d')"> Daal
+      </label>
+      <input type="number" id="pc-Daal_d" placeholder="No. of people" style="width: 50px;"> <br> <br> <br> 
+
+      </div>
     </div>
 
     <div class="menu-item">
-        <label>
-            <img src="./images/bir1.jpg" alt="Rice" class="item-image">
-            <input type="checkbox"> Rice
-        </label>
-        <input type="number" id="PeopleCountricedinner" placeholder="No. of people" >  <br> <br> <br>
-        <div class="sub-item">
-            <label>
-                <img src="./images/bir1.jpg" alt="sambar" class="item-image">
-                <input type="checkbox"> i. saambar
-            </label>
-            <label>
-                <img src="./images/bir1.jpg" alt="rasam" class="item-image">
-                <input type="checkbox"> ii. rasam
-            </label>
-        </div>
+      <label>
+        <img src="./bir1.jpg"  class="item-image">
+        <input type="checkbox" id="Rice_d" onchange="togglePeopleCount(this,'pc-Rice_d')">Rice
+      </label>
+      <input type="number" id="pc-Rice_d" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+      <div class="sub-item">         
+       <label>
+      
+        <input type="checkbox" id="sambar_d" onchange="togglePeopleCount(this,'pc-sambar_d')">sambar
+       </label>
+       <input type="number" id="pc-sambar_d" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+
+     <label>
+      
+      <input type="checkbox" id="rasam_d" onchange="togglePeopleCount(this,'pc-sambar_d')">rasam
+      </label>
+      <input type="number" id="pc-rasam_d" placeholder="No. of people" style="width: 50px;"> <br> <br> <br>
+      </div>
     </div>
     </div>
 </div>
@@ -352,7 +304,7 @@
     <input type="text" id="event-name" name="event-name" required><br><br>
 
     <label for="venue">Venue:</label>
-    <input type="text" id="venue" name="venue"><br><br>
+    <input type="text" id="event-venue" name="venue"><br><br>
 
     <label for="phone-no">Your Phone No:</label>
     <input type="text" id="phone-no" name="phone-no"><br><br>
