@@ -193,7 +193,41 @@ function setSelectedMenuItems(){
 
   const result = aggregateRawItems(SelectedMenuItemsList, menuItemsList);
   generatePDF(result,SelectedMenuItemsList);
+  setDbDetails();
 }
+
+
+function setDbDetails(){
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyAdwlJCdrMnKC_Pa4Lrtaq2yct8x3IC-ps",
+    authDomain: "myexam-1987.firebaseapp.com",
+    projectId: "myexam-1987",
+    storageBucket: "myexam-1987.appspot.com",
+    messagingSenderId: "50845302692",
+    appId: "1:50845302692:web:324cae25843d6d7fba8b31",
+    measurementId: "G-5BGSTMV6NT"
+  };
+  
+firebase.initializeApp(firebaseConfig);
+   // Get a reference to the database service
+const database = firebase.database();
+
+// Reference to the "users" node in your database
+const usersRef = database.ref('EVENTS');
+// Example data to be inserted
+const userData = {
+  Event : eventname,
+  Venue : eventvenue,
+  Phone: eventphone
+};
+
+// Push data to Firebase Realtime Database under "users" node
+  usersRef.push(userData);
+
+}
+
+
 
 // Helper function to get item name and quantity in proper format
 const getItemDetails = (itemName) => {
