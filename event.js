@@ -215,11 +215,17 @@ const database = firebase.database();
 
 // Reference to the "users" node in your database
 const usersRef = database.ref('EVENTS');
+
+const currentDate = new Date();
+const dateString = currentDate.toISOString(); // This will give you a string in ISO format
+//console.log(dateString);
+
 // Example data to be inserted
 const userData = {
   Event : eventname,
   Venue : eventvenue,
-  Phone: eventphone
+  Phone : eventphone,
+  Time : dateString
 };
 
 // Push data to Firebase Realtime Database under "users" node
