@@ -1,0 +1,82 @@
+{
+    "lunch-items": {
+      "veg-main": [
+        {
+          "name": "l_Veg_Biryani",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        },
+        {
+          "name": "l_khatta",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        },
+        {
+          "name": "l_kachembry",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        }
+      ],
+      "veg-curries": [
+        {
+          "name": "l_Potato_Fry",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        },
+        {
+          "name": "l_vankay_fry",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        }
+      ],
+      "other-items": [
+        {
+          "name": "l_gulab jam",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        }
+      ],
+      "icecreams": [
+        {
+          "name": "l_chocklate",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        }
+      ],
+      "nonveg-main": [
+        {
+          "name": "l_Chicken_Biryani",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        }
+      ]
+    },
+    "breakfast-items": {
+      "tifins": [
+        {
+          "name": "b_Idly",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        }
+      ]
+    },
+    "snack-items": {
+      "snacks": [
+        {
+          "name": "s_noodles",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        }
+      ]
+    },
+    "dinner-items": {
+      "nonveg-main": [
+        {
+          "name": "d_Chicken_Biryani",
+          "image": "./bir1.jpg",
+          "peopleCount": 0
+        }
+      ]
+    }
+  }
+  

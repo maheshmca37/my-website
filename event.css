@@ -10,6 +10,28 @@
     cursor: pointer;
 }
 
+
+
+  .collapsible {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+  .content {
+    padding: 10px;
+    display: none; /* Initially hidden */
+    border: 1px solid #ddd;
+    border-top: none;
+    background-color: #f1f1f1;
+  }
+
+
+
+
+
 .menu-item {
     padding: 5px;
     margin-bottom: 8px;

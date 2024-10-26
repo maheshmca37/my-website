@@ -9,8 +9,13 @@ let eventname = '';
 let eventvenue = '';
 let eventphone = '0';
 
+let lunchconfigshownstatus = '0';
+let breakfastconfigshownstatus = '0';
+let dinnerconfigshownstatus = '0';
+let snacksconfigshownstatus = '0';
 
-function loadmenuitems() {
+
+function loadRawItemsForMenuItems() {
   fetch('./menuitems.json')
     .then(res => {
       if (!res.ok) {
@@ -29,7 +34,8 @@ function loadmenuitems() {
             menuItemsList.push({
               category: category,
               item: item.item,
-              qty: item.qty
+              qty: item.qty,
+              units: item.units
             });
           });
         }
@@ -44,26 +50,8 @@ function loadmenuitems() {
 }
 
 // Call the function to load and process the menu items
-loadmenuitems();
+loadRawItemsForMenuItems();
 
-
-
-loadrawItemsListConfig();
-function loadrawItemsListConfig(){
-
-     fetch('./rawitems.json')
-       .then(res => {
-          return res.json();
-       })
-       .then(data  => {
-        data.forEach(user => {
-            rawItemsListConfig = data;
-             
-        }); 
-       })
-        .catch(error => console.logerror());
-        
-};
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -104,30 +92,277 @@ document.getElementById("dinner-btn").onclick = showDinnerItemsForm;
 
 document.getElementById("menu-final-btn").onclick = setSelectedMenuItems;
 
+const lunchItemsContainer = document.getElementById('lunch-items');
+const breakfasttemsContainer = document.getElementById('breakfast-items');
+const snackstemsContainer = document.getElementById('snacks-items');
+const dinnerItemsContainer = document.getElementById('dinner-items');
+
+const lbtn = document.getElementById("session-capt");
+
+
 
 function showLunchItemsForm(){
-  document.getElementById("lunch-items").style.display = "block";
-  document.getElementById("breakfast-items").style.display = "none";
-  document.getElementById("snack-items").style.display = "none";
-  document.getElementById("dinner-items").style.display = "none";
 
-  const lbtn = document.getElementById("session-capt");
-  lbtn.style.display = 'block';
   lbtn.innerHTML="ADD ITEMS FOR LUNCH";
+  
+  loadlunchMenuData();
+  lunchconfigshownstatus = '1';
+  breakfasttemsContainer.style.display = 'none'; 
+  dinnerItemsContainer.style.display ='none';
+  lunchItemsContainer.style.display = 'block'; // Show the section
 
 }
 
+
+  async function loadlunchMenuData() {
+    try {
+
+      if (lunchconfigshownstatus == '1') 
+          exit;
+
+      const response = await fetch('menuData.json');
+      const data = await response.json();
+
+
+      if (lunchItemsContainer) {
+        lunchItemsContainer.style.display = 'block'; // Show the section
+
+        // Clear any existing content
+        //lunchItemsContainer.innerHTML = '';
+
+        // Create collapsible sections for each category
+        Object.keys(data['lunch-items']).forEach(category => {
+          // Create the collapsible label
+          const label = document.createElement('div');
+          label.className = 'collapsible';
+          label.textContent = category.replace(/-/g, ' ').toUpperCase(); // Format category name
+
+          // Create the content container for items
+          const content = document.createElement('div');
+          content.className = 'content';
+
+          // Add items to the content
+          data['lunch-items'][category].forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.innerHTML = `<label>
+              <img src="${item.image}" class="item-image">
+              <input type="checkbox" id="${item.name}"+ onchange="togglePeopleCount(this, 'pc-${item.name}')"> ${item.name}
+            </label>
+            <input type="number" id="pc-${item.name}" placeholder="No. of people" style="width: 50px;"> <br><br>`;
+            content.appendChild(itemDiv);
+          });
+
+          // Append label and content to the main container
+          lunchItemsContainer.appendChild(label);
+          lunchItemsContainer.appendChild(content);
+
+          // Add click event to toggle the content visibility
+          label.addEventListener('click', function() {
+            if (content.style.display === 'block') {
+              content.style.display = 'none';
+            } else {
+              content.style.display = 'block';
+            }
+          });
+        });
+      } else {
+        console.error('Lunch items container not found.');
+      }
+    } catch (error) {
+      console.error('Error loading JSON data:', error);
+    }
+  }
+
+
+  async function loadlDinnerMenuData() {
+    try {
+
+      if (dinnerconfigshownstatus == '1') 
+          exit;
+
+      const response = await fetch('menuData.json');
+      const data = await response.json();
+
+
+      if (dinnerItemsContainer) {
+        dinnerItemsContainer.style.display = 'block'; // Show the section
+
+        // Clear any existing content
+        //lunchItemsContainer.innerHTML = '';
+
+        // Create collapsible sections for each category
+        Object.keys(data['dinner-items']).forEach(category => {
+          // Create the collapsible label
+          const label = document.createElement('div');
+          label.className = 'collapsible';
+          label.textContent = category.replace(/-/g, ' ').toUpperCase(); // Format category name
+
+          // Create the content container for items
+          const content = document.createElement('div');
+          content.className = 'content';
+
+          // Add items to the content
+          data['dinner-items'][category].forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.innerHTML = `<label>
+              <img src="${item.image}" class="item-image">
+              <input type="checkbox" id="${item.name}"+ onchange="togglePeopleCount(this, 'pc-${item.name}')"> ${item.name}
+            </label>
+            <input type="number" id="pc-${item.name}" placeholder="No. of people" style="width: 50px;"> <br><br>`;
+            content.appendChild(itemDiv);
+          });
+
+          // Append label and content to the main container
+          dinnerItemsContainer.appendChild(label);
+          dinnerItemsContainer.appendChild(content);
+
+          // Add click event to toggle the content visibility
+          label.addEventListener('click', function() {
+            if (content.style.display === 'block') {
+              content.style.display = 'none';
+            } else {
+              content.style.display = 'block';
+            }
+          });
+        });
+      } else {
+        console.error('Dinner items container not found.');
+      }
+    } catch (error) {
+      console.error('Error loading JSON data:', error);
+    }
+  }
+
+
+  async function loadBreakfastMenuData() {
+    try {
+
+      
+      if (breakfastconfigshownstatus == '1') 
+        exit;
+
+      const response = await fetch('menuData.json');
+      const data = await response.json();
+
+
+      if (breakfasttemsContainer) {
+            breakfasttemsContainer.style.display = 'block'; // Show the section
+
+        // Clear any existing content
+        //lunchItemsContainer.innerHTML = '';
+
+        // Create collapsible sections for each category
+        Object.keys(data['breakfast-items']).forEach(category => {
+          // Create the collapsible label
+          const label = document.createElement('div');
+          label.className = 'collapsible';
+          label.textContent = category.replace(/-/g, ' ').toUpperCase(); // Format category name
+
+          // Create the content container for items
+          const content = document.createElement('div');
+          content.className = 'content';
+
+          // Add items to the content
+          data['breakfast-items'][category].forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.innerHTML = `<label>
+              <img src="${item.image}" class="item-image">
+              <input type="checkbox" id="${item.name}"+"_b" onchange="togglePeopleCount(this, 'pc-${item.name}')"> ${item.name}
+            </label>
+            <input type="number" id="pc-${item.name}" placeholder="No. of people" style="width: 50px;"> <br><br>`;
+            content.appendChild(itemDiv);
+          });
+
+          // Append label and content to the main container
+          breakfasttemsContainer.appendChild(label);
+          breakfasttemsContainer.appendChild(content);
+
+          // Add click event to toggle the content visibility
+          label.addEventListener('click', function() {
+            if (content.style.display === 'block') {
+              content.style.display = 'none';
+            } else {
+              content.style.display = 'block';
+            }
+          });
+        });
+      } else {
+        console.error('breakfast items container not found.');
+      }
+    } catch (error) {
+      console.error('Error loading JSON data:', error);
+    }
+  }
+
+  
+  async function loadsnacksMenuData() {
+    try {
+      const response = await fetch('menuData.json');
+      const data = await response.json();
+
+
+      if (lunchItemsContainer) {
+        lunchItemsContainer.style.display = 'block'; // Show the section
+
+        // Clear any existing content
+        lunchItemsContainer.innerHTML = '';
+
+        // Create collapsible sections for each category
+        Object.keys(data['lunch-items']).forEach(category => {
+          // Create the collapsible label
+          const label = document.createElement('div');
+          label.className = 'collapsible';
+          label.textContent = category.replace(/-/g, ' ').toUpperCase(); // Format category name
+
+          // Create the content container for items
+          const content = document.createElement('div');
+          content.className = 'content';
+
+          // Add items to the content
+          data['lunch-items'][category].forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.innerHTML = `<label>
+              <img src="${item.image}" class="item-image">
+              <input type="checkbox" onchange="togglePeopleCount(this, 'pc-${item.name.replace(/ /g, "_")}_l')"> ${item.name}
+            </label>
+            <input type="number" id="pc-${item.name.replace(/ /g, "_")}_l" placeholder="No. of people" style="width: 50px;"> <br><br>`;
+            content.appendChild(itemDiv);
+          });
+
+          // Append label and content to the main container
+          lunchItemsContainer.appendChild(label);
+          lunchItemsContainer.appendChild(content);
+
+          // Add click event to toggle the content visibility
+          label.addEventListener('click', function() {
+            if (content.style.display === 'block') {
+              content.style.display = 'none';
+            } else {
+              content.style.display = 'block';
+            }
+          });
+        });
+      } else {
+        console.error('Lunch items container not found.');
+      }
+    } catch (error) {
+      console.error('Error loading JSON data:', error);
+    }
+  }
+
+  
+
 function showBreakfastItemsForm(){
-  document.getElementById("breakfast-items").style.display = "block";
-  document.getElementById("lunch-items").style.display = "none";
-  document.getElementById("snack-items").style.display = "none";
-  document.getElementById("dinner-items").style.display = "none";
+  
 
-  const lbtn = document.getElementById("session-capt");
-  lbtn.style.display = 'block';
   lbtn.innerHTML="ADD ITEMS FOR BREAKFAST";
+  
 
-
+  loadBreakfastMenuData();
+  breakfastconfigshownstatus = '1';
+  lunchItemsContainer.style.display = 'none'; 
+  dinnerItemsContainer.style.display= 'none';
+  breakfasttemsContainer.style.display = 'block'; // Show the section
 }
 
 function showSnacksItemsForm(){
@@ -144,14 +379,14 @@ function showSnacksItemsForm(){
 }
 
 function showDinnerItemsForm(){
-  document.getElementById("breakfast-items").style.display = "none";
-  document.getElementById("lunch-items").style.display = "none";
-  document.getElementById("snack-items").style.display = "none";
-  document.getElementById("dinner-items").style.display = "block";
-
-  const lbtn = document.getElementById("session-capt");
-  lbtn.style.display = 'block';
+  
   lbtn.innerHTML="ADD ITEMS FOR DINNER";
+  
+  loadlDinnerMenuData();
+  dinnerconfigshownstatus = '1';
+  breakfasttemsContainer.style.display = 'none'; 
+  lunchItemsContainer.style.display = 'none'; // Show the section
+  dinnerItemsContainer.style.display = 'block';
 
         
 }
@@ -169,33 +404,86 @@ function setSelectedMenuItems(){
   const itemMap = new Map();
 
   checkboxes.forEach(checkbox => {
-      if (checkbox.checked) {
-          const checkboxId = checkbox.id;
-          const inputId = `pc-${checkboxId}`;
-          const inputField = document.querySelector(`#${inputId}`);
-          const pcount = inputField ? parseInt(inputField.value, 10) : 0;
+    if (checkbox.checked) {
+        const checkboxId = checkbox.id;
+        const inputId = `pc-${checkboxId}`;
+        const inputField = document.querySelector(`#${inputId}`);
+        const pcount = inputField ? parseInt(inputField.value, 10) : 0;
 
-          // Extract the part before '@' in the checkboxId
-          const baseId = checkboxId.split('_')[0];
+         // Get the base item name by removing the prefix (the part before the first underscore)
+         const baseId = checkboxId.substring(checkboxId.indexOf('_') + 1); // Removes the prefix (l_ or d_)
+ 
+        // If the item already exists in the map, add to the existing count
+        if (itemMap.has(baseId)) {
+            itemMap.set(baseId, itemMap.get(baseId) + pcount);
+        } else {
+            // Otherwise, set the initial count
+            itemMap.set(baseId, pcount);
+        }
+    }
+});
 
-          // If the item already exists in the map, add to the existing count
-          if (itemMap.has(baseId)) {
-              itemMap.set(baseId, itemMap.get(baseId) + pcount);
-          } else {
-              // Otherwise, set the initial count
-              itemMap.set(baseId, pcount);
-          }
-      }
-  });
+// Convert the map to the desired array format
+const SelectedMenuItemsList = Array.from(itemMap, ([iname, pcount]) => ({ iname, pcount }));
 
-  // Convert the map to the desired array format
-   SelectedMenuItemsList = Array.from(itemMap, ([iname, pcount]) => ({ iname, pcount }));
+//console.log(SelectedMenuItemsList);
 
-  const result = aggregateRawItems(SelectedMenuItemsList, menuItemsList);
+
+  const result = calculateItemQuantities(SelectedMenuItemsList, menuItemsList);
   generatePDF(result,SelectedMenuItemsList);
   setDbDetails();
 }
 
+
+function calculateItemQuantities(selectedMenuItems, menuItems) {
+  const itemSummary = {};
+
+  // Loop through each selected menu item
+  selectedMenuItems.forEach(menuItem => {
+      const itemName = menuItem.iname; // Menu item name
+      const pcount = menuItem.pcount; // Portion count
+      
+      const ingredients =  [];
+      let j=0;
+      // Get ingredients for the selected menu item
+      for (let i = 0; i < menuItems.length; i++) {
+      
+        if (menuItems[i].category == itemName) {
+           ingredients[j] = menuItems[i];
+           j = j + 1 ;
+        }
+      }
+
+          // Ensure ingredients is an array and has items
+          if (ingredients.length > 0) {
+              // Loop through the ingredients
+                for (let i=0 ; i<ingredients.length;i++){
+                  const qty = (parseFloat(ingredients[i].qty) * pcount)/50; // Multiply qty by pcount
+                  const unit = ingredients[i].units;
+                  const ingredientName = ingredients[i].item;
+
+                  // Add or update the item in the summary
+                  if (itemSummary[ingredientName]) {
+                      itemSummary[ingredientName].qty += qty;
+                  } else {
+                      itemSummary[ingredientName] = { qty, unit };
+                  }
+                }
+
+          
+          }
+      
+  });
+
+  // Convert the summary to the desired list format
+  const result = Object.keys(itemSummary).map(item => ({
+      item,
+      qty: itemSummary[item].qty,
+      unit: itemSummary[item].unit
+  }));
+
+  return result;
+}
 
 function setDbDetails(){
   
@@ -234,46 +522,6 @@ const userData = {
 }
 
 
-
-// Helper function to get item name and quantity in proper format
-const getItemDetails = (itemName) => {
-  const item = rawItemsListConfig.find(r => r.name.includes(itemName));
-  return item ? { id: item.id, name: item.name, qty: parseFloat(item.qty) } : null;
-};
-
-// Function to aggregate raw items based on selected menu items
-const aggregateRawItems = (selectedMenuItems, menuItemsList) => {
-  const aggregatedItems = {};
-
-  selectedMenuItems.forEach(({ iname, pcount }) => {
-      // Filter menuItemsList to find items matching the selected category
-      const filteredItems = menuItemsList.filter(({ category }) => category === iname);
-
-      filteredItems.forEach(({ item, qty }) => {
-          const itemDetail = getItemDetails(item);
-          if (itemDetail) {
-             // const totalQty = parseFloat((qty/50)) * pcount;
-             const totalQty = Math.ceil(parseFloat((qty / 50)) * pcount);
-
-              if (aggregatedItems[itemDetail.name]) {
-                  aggregatedItems[itemDetail.name] += totalQty;
-              } else {
-                  aggregatedItems[itemDetail.name] = totalQty;
-              }
-          }
-      });
-  });
-
-  // Update rawitems array
-  rawItemsListConfig.forEach(item => {
-      if (aggregatedItems[item.name]) {
-          item.qty = aggregatedItems[item.name].toString();
-      }
-  });
-
-  return rawItemsListConfig;
-};
-
 function generatePDF(rawItemsListConfig, SelectedMenuItemsList) {
   // Prepare the content for the PDF
   const content = [];
@@ -302,24 +550,26 @@ function generatePDF(rawItemsListConfig, SelectedMenuItemsList) {
     [
       { text: 'SNO', style: 'tableHeader' },
       { text: 'Name', style: 'tableHeader' },
-      { text: 'Quantity', style: 'tableHeader' }
+      { text: 'Quantity', style: 'tableHeader' },
+      { text: 'Units', style: 'tableHeader' }
     ]
   ];
 
-  rawItemsListConfig.forEach((item, index) => {
-    const nameMatch = item.name.match(/(.+?)\s*\(.+?\)/);
-    const itemName = nameMatch ? nameMatch[1].trim() : item.name; 
-    const qtyAddition = nameMatch ? item.name.match(/\((.+?)\)/)[1] : ''; 
-    
-    const updatedQty = item.qty + "  (" + (qtyAddition ? ` ${qtyAddition}` : '') + ")";
+ for (let index = 0; index < rawItemsListConfig.length; index++){
+    const itemName = rawItemsListConfig[index].item;
+    const updatedQty = rawItemsListConfig[index].qty;
+
+    const updatedUnit =   rawItemsListConfig[index].unit;
+
 
     tableBody.push([
       { text: (index + 1).toString(), style: 'tableData' },
       { text: itemName, style: 'tableData' },
-      { text: updatedQty.toString(), style: 'tableData' }
+      { text: updatedQty.toString(), style: 'tableData' },
+      { text:updatedUnit.toString(), style: 'tableData' }
     ]);
-  });
 
+  }
   // Define the document definition with both tables
   const docDefinition = { 
     content: [
