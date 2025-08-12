@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>STORE MANAGEMENT SYSTEM</title>
+
+  <!-- Load Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <!-- Initialize Supabase -->
+  <script>
+    const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct URL
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphYnd1dmR0cWNsaGJ1aW9jZGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDgzNDEsImV4cCI6MjA3MDMyNDM0MX0.T9cgmFpSup1OPwUD5hgEEhVbDfArPdkLaaAKjKlklxU'; // ✅ Full anon key
+
+    window.supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
+
+  </script>
+  <script src="storemanage.js"></script>
+
+  <script>
+   function backToHomepage() {
+    window.location.href = 'index.html';
+    }
+
+</script>
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 40px;
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-container {
+      background-color: #fff;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    fieldset {
+      border: 2px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      flex: 1;
+      min-width: 120px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select {
+      flex: 2;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <h2>ITEM CONFIGURATION PAGE</h2>
+  <h3>CONFIGURE YOUR STORE ITEMS HERE</h3>
+
+  <div class="form-container">
+    <form id="itemConfigForm">
+      <fieldset>
+        <legend><strong>Item Details</strong></legend>
+
+        <!-- Item ID -->
+        <div class="form-group">
+          <label for="itemId">Item ID:</label>
+          <input type="number" id="itemId" name="itemId" required>
+        </div>
+
+        <!-- Item Name -->
+        <div class="form-group">
+          <label for="itemName">Item Name:</label>
+          <input type="text" id="itemName" name="itemName" required>
+        </div>
+
+        <!-- Item Type -->
+        <div class="form-group">
+          <label for="itemType">Item Type:</label>
+          <select id="itemType" name="itemType">
+            <option value="none" selected>none</option>
+            <option value="big">big</option>
+            <option value="medium">medium</option>
+            <option value="small">small</option>
+            <option value="type1">type1</option>
+            <option value="type2">type2</option>
+            <option value="type3">type3</option>
+          </select>
+        </div>
+
+        <!-- Item Cost -->
+        <div class="form-group">
+          <label for="itemCost">Item Cost:</label>
+          <input type="number" id="itemCost" name="itemCost" value="1" min="1" required>
+        </div>
+
+        <!-- Remarks -->
+        <div class="form-group">
+          <label for="remarks">Remarks:</label>
+          <input type="text" id="remarks" name="remarks">
+        </div>
+
+        <!-- Submit -->
+        <button id="configitem" onclick="ConfigureItemToDB(event)">Add Item</button> <br> <br> <br>
+        <button onclick="backToHomepage()"> BAck To Home Page</button> 
+
+
+      </fieldset>
+    </form>
+  </div>
+
+</body>
+</html>
