@@ -20,9 +20,6 @@ function ConfigureItemToDB(event) {
 
 
 async function addStoreConfigItem(itemID, itemName, itemType, itemCost, remarks) {
-  const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct URL
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphYnd1dmR0cWNsaGJ1aW9jZGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDgzNDEsImV4cCI6MjA3MDMyNDM0MX0.T9cgmFpSup1OPwUD5hgEEhVbDfArPdkLaaAKjKlklxU'; // ✅ Full anon key
-  //supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
 
   const { data, error } = await supabase
     .from('storeconfigitems') // ✅ correct table name
@@ -40,10 +37,7 @@ async function addStoreConfigItem(itemID, itemName, itemType, itemCost, remarks)
 
 // storeinventory table
 async function addStoreInventory(itemID, itemName, quantity, price, remarks) {
-  const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct URL
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphYnd1dmR0cWNsaGJ1aW9jZGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDgzNDEsImV4cCI6MjA3MDMyNDM0MX0.T9cgmFpSup1OPwUD5hgEEhVbDfArPdkLaaAKjKlklxU'; // ✅ Full anon key
- // supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
-  
+
   const { data, error } = await supabase
     .from('storeinventory') // ✅ correct table name
     .insert([
@@ -112,9 +106,6 @@ async function setSoldItemQuantity(itemID, quantity) {
 // addeditemstostore table
 async function addItemstoStoreDaily(itemID, itemName, quantity, price, pdate, ptime, username, remarks) {
   
-  const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct URL
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphYnd1dmR0cWNsaGJ1aW9jZGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDgzNDEsImV4cCI6MjA3MDMyNDM0MX0.T9cgmFpSup1OPwUD5hgEEhVbDfArPdkLaaAKjKlklxU'; // ✅ Full anon key
-  //supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
   
   const { data, error } = await supabase
     .from('addeditemstostore') // ✅ correct table name
@@ -146,11 +137,7 @@ async function addItemstoStoreDaily(itemID, itemName, quantity, price, pdate, pt
 
 async function updateStoreInventory(itemID, ModifiedQuanity) {
 
-const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct URL
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphYnd1dmR0cWNsaGJ1aW9jZGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDgzNDEsImV4cCI6MjA3MDMyNDM0MX0.T9cgmFpSup1OPwUD5hgEEhVbDfArPdkLaaAKjKlklxU'; // ✅ Full anon key
-  //delete supabase;
-  //supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
-  
+ 
   const { data, error } = await supabase
     .from('storeinventory')
     .update({ quantity: ModifiedQuanity })
@@ -168,12 +155,7 @@ const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct U
 //
 async function setAddedItemQuantity(itemID, quantity) {
 
-  const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct URL
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphYnd1dmR0cWNsaGJ1aW9jZGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDgzNDEsImV4cCI6MjA3MDMyNDM0MX0.T9cgmFpSup1OPwUD5hgEEhVbDfArPdkLaaAKjKlklxU'; // ✅ Full anon key
-  //supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
   
-  //const { data, error } = await supabase.from('storeinventory').select('*');
-
   const existingItem = storeInventoryTableData.find(item => item.itemid === Number(itemID));
 
   // If item exists, add its quantity to the passed one
