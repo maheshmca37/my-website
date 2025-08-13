@@ -154,6 +154,8 @@
         const username = "Mahesh";
 
         
+        const { data, error } = await supabase.from('storeinventory').select('*');
+        storeInventoryTableData1 = data;
         SoldItemsFromStoreDaily(selectedItem, itemname, quantity, itemcost,dateString, timeString,username, remarks);
 
 
@@ -164,8 +166,7 @@
 
       alert('✅ Item(s) Sold from store successfully!');
 
-  const { data, error } = await supabase.from('storeinventory').select('*');
-  storeInventoryTableData1 = data;
+
     }
 
 </script>
