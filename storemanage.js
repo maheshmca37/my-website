@@ -19,20 +19,20 @@ function ConfigureItemToDB(event) {
 }
 
 
-async function addStoreConfigItem(itemID, itemName, itemType, itemCost, remarks) {
+  async function addStoreConfigItem(itemID, itemName, itemType, itemCost, remarks) {
 
-  const { data, error } = await supabase
-    .from('storeconfigitems') // ✅ correct table name
-    .insert([
-      {
-        itemid: itemID,         // ✅ match column names exactly
-        itemname: itemName,
-        itemtype: itemType,
-        itemcost: itemCost,
-        remarks: remarks
-      }
-    ]);
-}
+    const { data, error } = await supabase
+      .from('storeconfigitems') // ✅ correct table name
+      .insert([
+        {
+          itemid: itemID,         // ✅ match column names exactly
+          itemname: itemName,
+          itemtype: itemType,
+          itemcost: itemCost,
+          remarks: remarks
+        }
+      ]);
+  }
 
 
 // storeinventory table
@@ -75,7 +75,7 @@ async function SoldItemsFromStoreDaily(itemID, itemName, quantity, price, pdate,
 
     setSoldItemQuantity(Number(itemID), Number(quantity));
     if(AddedItemAvailable == 2){
-      updateStoreInventory(Number(itemID), ModifiedQuanity);
+      updateStoreInventory(Number(itemID), ModifiedQuanity, price);
     }
      AddedItemAvailable = 1;
 }
@@ -115,7 +115,7 @@ async function addItemstoStoreDaily(itemID, itemName, quantity, price, pdate, pt
         itemname: itemName,
         quantityadded: quantity,
         price: price,
-        addeddate : pdate,
+        addeddate : pdate, 
         addedtime : ptime,
         addedby : username,
         remarks: remarks
@@ -127,7 +127,7 @@ async function addItemstoStoreDaily(itemID, itemName, quantity, price, pdate, pt
 
   setAddedItemQuantity(itemID, quantity);
     if(AddedItemAvailable == 2){
-      updateStoreInventory(Number(itemID), ModifiedQuanity);
+      updateStoreInventory(Number(itemID), ModifiedQuanity, price);
     }
     else {
         addStoreInventory(itemID, itemName, quantity, price, remarks);
@@ -135,12 +135,12 @@ async function addItemstoStoreDaily(itemID, itemName, quantity, price, pdate, pt
   ModifiedQuanity = 0;
 }
 
-async function updateStoreInventory(itemID, ModifiedQuanity) {
+async function updateStoreInventory(itemID, ModifiedQuanity,price) {
 
  
   const { data, error } = await supabase
     .from('storeinventory')
-    .update({ quantity: ModifiedQuanity })
+    .update({ quantity: ModifiedQuanity },{ price: price})
     .eq('itemid', itemID);
 
   if (error) {

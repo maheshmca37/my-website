@@ -80,96 +80,120 @@
   <script window.storeConfigItems = []; ></script>
   <script window.storeInventoryTableData1 = []; ></script>
  
-  <script>
-    // Load items on page load
-    document.addEventListener('DOMContentLoaded', async () => {
-      const itemSelect = document.getElementById('itemSelect');
-      const timeDisplay = document.getElementById('timeDisplay');
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const itemSelect = document.getElementById('itemSelect');
+    const priceInput = document.getElementById('aprice');
+  
+    const timeDisplay = document.getElementById('timeDisplay');
 
-      // Set current date and time
-      const now = new Date();
-      const dateString = now.toLocaleDateString();
-      const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      timeDisplay.textContent = `🕒 ${dateString} ${timeString}`;
+    // Set current date and time
+    const now = new Date();
+    const dateString = now.toLocaleDateString();
+    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    timeDisplay.textContent = `🕒 ${dateString} ${timeString}`;
 
-      // Fetch storeconfigitems from Supabase
-      const { data, error } = await supabase.from('storeinventory').select('*');
-      
-      storeConfigItems = data;
+    // Fetch items from Supabase
+    const { data, error } = await supabase.from('storeconfigitems').select('*');
+    storeConfigItems = data;
 
-      if (error) {
-        alert('Failed to fetch items: ' + error.message);
-        return;
-      }
-
-      // Add empty option
-      const emptyOption = document.createElement('option');
-      emptyOption.value = '';
-      emptyOption.textContent = '-- Select an Item --';
-      itemSelect.appendChild(emptyOption);
-
-      // Populate combo box
-      data.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.itemid; // or item.itemname if preferred
-        option.textContent = item.itemname;
-        itemSelect.appendChild(option);
-      });
-
-      // Set default selection
-      itemSelect.selectedIndex = 0;
-    });
-
-
-  function getItemNameById(itemid) {
-  const item = storeConfigItems.find(item => item.itemid === itemid);
-  return item ? item.itemname : null;
-}
-
-
-
-    // Button click handler
-    async function addItemToStore() {
-      const itemSelect = document.getElementById('itemSelect');
-      const quantityInput = document.getElementById('quantityInput');
-
-      const selectedItem = itemSelect.value;
-      const quantity = quantityInput.value.trim();
-
-      if (!selectedItem || !quantity) {
-        alert('Please select an item and enter quantity.');
-        return;
-      }
-
-      // TODO: Add functionality here to save/store the item (e.g., insert to another table)
-
-
-        const itemname = getItemNameById(Number(selectedItem));
-        const itemcost = document.getElementById("aprice").value;
-        const remarks  = document.getElementById("aremarks").value;
-
-        const now = new Date();
-        const dateString = now.toLocaleDateString();
-        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const username = "Mahesh";
-
-        
-        const { data, error } = await supabase.from('storeinventory').select('*');
-        storeInventoryTableData1 = data;
-        SoldItemsFromStoreDaily(selectedItem, itemname, quantity, itemcost,dateString, timeString,username, remarks);
-
-
-
-      // Reset fields
-      itemSelect.selectedIndex = 0;
-      quantityInput.value = '';
-
-      alert('✅ Item(s) Sold from store successfully!');
-
-
+    if (error) {
+      alert('Failed to fetch items: ' + error.message);
+      return;
     }
 
+    // Add empty default option
+    const emptyOption = document.createElement('option');
+    emptyOption.value = '';
+    emptyOption.textContent = '-- Select an Item --';
+    itemSelect.appendChild(emptyOption);
+
+    // Populate combo box with item names and attach price in data attribute
+    data.forEach(item => {
+      const option = document.createElement('option');
+      option.value = item.itemid;
+      option.textContent = item.itemname;
+      option.setAttribute('data-price', item.itemcost);
+      itemSelect.appendChild(option);
+    });
+
+    // Set default selection
+    itemSelect.selectedIndex = 0;
+
+    // ✅ Handle price setting on item change
+  itemSelect.addEventListener('change', function () {
+  const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+  const price = selectedOption.getAttribute('data-price');
+
+  if (price !== null && price !== '') {
+    priceInput.value = price;
+  } else {
+    priceInput.value = 1;
+  }
+});
+
+  });
+
+  function getItemNameById(itemid) {
+    const item = storeConfigItems.find(item => item.itemid === itemid);
+    return item ? item.itemname : null;
+  }
+
+  async function addItemToStore() {
+    const itemSelect = document.getElementById('itemSelect');
+    const quantityInput = document.getElementById('quantityInput');
+    const selectedItem = itemSelect.value;
+    const quantity = quantityInput.value.trim();
+
+    if (!selectedItem || !quantity) {
+      alert('Please select an item and enter quantity.');
+      return;
+    }
+
+    const itemname = getItemNameById(Number(selectedItem));
+    const itemcost = document.getElementById("aprice").value;
+    const remarks = document.getElementById("aremarks").value;
+    const now = new Date();
+    const dateString = now.toLocaleDateString();
+    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const username = "Mahesh";
+
+    const { data, error } = await supabase.from('storeinventory').select('*');
+    
+    const itemExists = data.some(item => item.itemname === itemname);
+    if (!itemExists) {
+      alert("Item Stock Not Available to Sold...Please Select Other Item");
+      return; // Stop the process
+    }
+    storeInventoryTableData1 = data;
+
+    SoldItemsFromStoreDaily(
+      selectedItem,
+      itemname,
+      quantity,
+      (quantity * itemcost),
+      dateString,
+      timeString,
+      username,
+      remarks
+    );
+
+    // Reset fields
+    itemSelect.selectedIndex = 0;
+    quantityInput.value = '';
+
+    alert('✅ Item(s) Sold from store successfully!');
+  }
+
+  function backToHomepage() {
+    window.location.href = 'index.html';
+  }
 </script>
+
+
+
+
+
 <script>
    function backToHomepage() {
     window.location.href = 'index.html';
@@ -191,8 +215,8 @@
     <label for="quantityInput">Enter Quantity of Item:</label>
     <input type="text" id="quantityInput" placeholder="Enter quantity"> 
 
-    <label for="Price">Price(optional):</label> 
-    <input type="number" id="aprice"  value="1" placeholder="price"> <br> <br>
+    <label for="aprice">Price:</label>
+    <input type="number" id="aprice" value="1" placeholder="price"> <br> <br>
 
     <label for="remarks">Enter Remarks(optional):</label> 
     <input type="text" id="aremarks" value="none" placeholder="remarks"> <br>

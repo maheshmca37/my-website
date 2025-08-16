@@ -84,6 +84,7 @@
     // Load items on page load
     document.addEventListener('DOMContentLoaded', async () => {
       const itemSelect = document.getElementById('itemSelect');
+      const priceInput = document.getElementById('aprice');
       const timeDisplay = document.getElementById('timeDisplay');
 
       // Set current date and time
@@ -113,12 +114,25 @@
         const option = document.createElement('option');
         option.value = item.itemid; // or item.itemname if preferred
         option.textContent = item.itemname;
+        option.setAttribute('data-price', item.itemcost);
         itemSelect.appendChild(option);
       });
 
       // Set default selection
       itemSelect.selectedIndex = 0;
-    });
+
+
+  itemSelect.addEventListener('change', function () {
+  const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+  const price = selectedOption.getAttribute('data-price');
+
+  if (price !== null && price !== '') {
+    priceInput.value = price;
+  } else {
+    priceInput.value = 1;
+  }
+  });
+});
 
 
   function getItemNameById(itemid) {
@@ -156,7 +170,7 @@
         const { data, error } = await supabase.from('storeinventory').select('*');
         storeInventoryTableData = data;
 
-        addItemstoStoreDaily(selectedItem, itemname, quantity, itemcost,dateString, timeString,username, remarks);
+        addItemstoStoreDaily(selectedItem, itemname, quantity, (quantity*itemcost),dateString, timeString,username, remarks);
 
 
 
@@ -191,15 +205,16 @@
     <label for="quantityInput">Enter Quantity of Item:</label>
     <input type="text" id="quantityInput" placeholder="Enter quantity"> 
 
-    <label for="Price">Price(optional):</label> 
-    <input type="number" id="aprice"  value="1" placeholder="price"> <br> <br>
+    <label for="aprice">Price:</label>
+    <input type="number" id="aprice" value="1" placeholder="price"> <br> <br>
+
 
     <label for="remarks">Enter Remarks(optional):</label> 
     <input type="text" id="aremarks" value="none" placeholder="remarks"> <br>
 
 
     <button onclick="addItemToStore()"> Add Item to Store</button> <br> <br> <br>
-    <button onclick="backToHomepage()"> BAck To Home Page</button> 
+    <button onclick="backToHomepage()"> Back To Home Page</button> 
 
   </div>
 </body>
