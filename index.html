@@ -1,107 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>STORE MANAGEMENT SYSTEM</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Store Mnagement Services</title>
   <style>
-    /* Reset default margin & padding */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #ece9e6, #ffffff);
+      background-color: #f0f2f5;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
+      align-items: center;
+      height: 100vh;
     }
-
+    .login-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
     h2 {
-      margin-bottom: 40px;
-      color: #333;
-      font-size: 32px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      text-align: center;
+      margin-bottom: 1rem;
     }
-
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
     button {
-      background-color: #007BFF;
+      width: 100%;
+      padding: 0.6rem;
+      background-color: #4CAF50;
       color: white;
       border: none;
-      padding: 15px 30px;
-      font-size: 16px;
-      border-radius: 8px;
+      border-radius: 5px;
+      margin-top: 1rem;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
-      width: 260px;
-      margin: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-
     button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
+      background-color: #45a049;
     }
-
-    button:active {
-      transform: translateY(1px);
-    }
-
-    div {
+    .error {
+      color: red;
+      margin-top: 0.5rem;
       text-align: center;
     }
   </style>
 </head>
-
 <body>
-  <h2>Store Management System</h2>
-
-  <div>
-    <button id="Config" onclick="configLoad()">Configure Store Items</button>
+  <div class="login-container">
+    <h2>User Login</h2>
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <div class="error" id="error-msg"></div>
+    </form>
   </div>
 
-  <div>
-    <button id="Add" onclick="AddItems()">Add Items to Store</button>
-  </div>
-
-  <div>
-    <button id="Sold" onclick="RemoveItems()">Remove Sold Items</button>
-  </div>
-
-  <div>
-    <button id="Reports" onclick="AdminReports()">Admin Reports</button>
-  </div>
-
-  <div>
-    <button id="Close" onclick="CloseApplication()">Close</button>
-  </div>
+  <!-- Include Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    function configLoad() {
-      window.location.href = 'configLoad.html';
-    }
+    // Initialize Supabase
+    const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct URL
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphYnd1dmR0cWNsaGJ1aW9jZGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDgzNDEsImV4cCI6MjA3MDMyNDM0MX0.T9cgmFpSup1OPwUD5hgEEhVbDfArPdkLaaAKjKlklxU'; // ✅ Full anon key
 
-    function AddItems() {
-      window.location.href = 'AddItems.html';
-    }
+    supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
 
-    function RemoveItems() {
-      window.location.href = 'RemoveItems.html';
-    }
 
-    function AdminReports() {
-      window.location.href = 'AdminReports.html';
-    }
+    const loginForm = document.getElementById('login-form');
+    const errorMsg = document.getElementById('error-msg');
 
-    function CloseApplication() {
-      window.close(); // Corrected function to close window
-    }
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const password = document.getElementById('password').value.trim();
+
+      const { data, error } = await supabase
+        .from('storeusers')
+        .select('password')
+        .eq('password', password);
+
+      if (error) {
+        errorMsg.textContent = 'Invalid User..!';
+        console.error(error);
+      } else if (data.length > 0) {
+        // Password match found
+        const username = document.getElementById('username').value.trim(); // ✅ Correct
+        localStorage.setItem('store_username', username); // Store username
+        errorMsg.style.color = 'green';
+        errorMsg.textContent = 'Login successful!';
+        // Redirect or load dashboard here
+     window.location.href = 'homepage.html';
+      } else {
+        errorMsg.textContent = 'Invalid Password.';
+      }
+    });
   </script>
 </body>
 </html>

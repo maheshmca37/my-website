@@ -79,6 +79,9 @@
   <script src="storemanage.js"></script>
   <script window.storeConfigItems = []; ></script>
   <script window.storeInventoryTableData1 = []; ></script>
+
+  
+
  
 <script>
   document.addEventListener('DOMContentLoaded', async () => {
@@ -156,7 +159,7 @@
     const now = new Date();
     const dateString = now.toLocaleDateString();
     const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const username = "Mahesh";
+    const username = localStorage.getItem('store_username');;
 
     const { data, error } = await supabase.from('storeinventory').select('*');
     
@@ -186,7 +189,7 @@
   }
 
   function backToHomepage() {
-    window.location.href = 'index.html';
+    window.location.href = 'homepage.html';
   }
 </script>
 
