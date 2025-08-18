@@ -12,8 +12,6 @@ function ConfigureItemToDB(event) {
 
     addStoreConfigItem(itemid, itemname, itemtype, itemcost, remarks);
 
-    alert("Item Configured Successfully");
-
     // Reset form to initial state
     document.getElementById("itemConfigForm").reset();
 }
@@ -21,25 +19,52 @@ function ConfigureItemToDB(event) {
 
   async function addStoreConfigItem(itemID, itemName, itemType, itemCost, remarks) {
 
-    const { data, error } = await supabase
-      .from('storeconfigitems') // ✅ correct table name
-      .insert([
-        {
-          itemid: itemID,         // ✅ match column names exactly
-          itemname: itemName,
-          itemtype: itemType,
-          itemcost: itemCost,
-          remarks: remarks
-        }
-      ]);
-  }
+    const tableName = TABLES.storeconfigitems;
+    // First, check if the itemid already exists
+const { data: existingItem, error: selectError } = await supabase
+  .from(tableName)
+  .select('itemid')
+  .eq('itemid', itemID)
+  .single(); // since itemid is a primary key, it should return at most one row
 
+if (selectError && selectError.code !== 'PGRST116') {
+  // Handle unexpected errors (PGRST116 = No rows found, which is okay)
+  console.error('Error checking for existing item:', selectError.message);
+  alert('An error occurred while checking the item ID.');
+} else if (existingItem) {
+  // itemid already exists
+  alert('Item ID already exists. Please Enter Another Item ID.');
+} else {
+  const tableName = TABLES.storeconfigitems;
+  // itemid does not exist, safe to insert
+  const { data, error } = await supabase
+    .from(tableName)
+    .insert([
+      {
+        itemid: itemID,
+        itemname: itemName,
+        itemtype: itemType,
+        itemcost: itemCost,
+        remarks: remarks
+      }
+    ]);
+
+  if (error) {
+    console.error('Insert error:', error.message);
+    alert('Failed to configure an item. Please try again.');
+  } else {
+     alert("Item Configured Successfully");
+  }
+}
+
+  }
 
 // storeinventory table
 async function addStoreInventory(itemID, itemName, quantity, price, remarks) {
 
+  const tableName = TABLES.storeinventory;
   const { data, error } = await supabase
-    .from('storeinventory') // ✅ correct table name
+    .from(tableName) // ✅ correct table name
     .insert([
       {
         itemid: itemID,         // ✅ match column names exactly
@@ -55,8 +80,9 @@ async function addStoreInventory(itemID, itemName, quantity, price, remarks) {
 //  solditemsfromstore table   
 async function SoldItemsFromStoreDaily(itemID, itemName, quantity, price, pdate, ptime, username, remarks) {
     
+ const tableName = TABLES.solditemsfromstore;
   const { data, error } = await supabase
-    .from('solditemsfromstore') // ✅ correct table name
+    .from(tableName) // ✅ correct table name
     .insert([
       {
         itemid: itemID,         // ✅ match column names exactly
@@ -106,9 +132,9 @@ async function setSoldItemQuantity(itemID, quantity) {
 // addeditemstostore table
 async function addItemstoStoreDaily(itemID, itemName, quantity, price, pdate, ptime, username, remarks) {
   
-  
+  const tableName = TABLES.addeditemstostore;
   const { data, error } = await supabase
-    .from('addeditemstostore') // ✅ correct table name
+    .from(tableName) // ✅ correct table name
     .insert([
       {
         itemid: itemID,         // ✅ match column names exactly
@@ -137,9 +163,9 @@ async function addItemstoStoreDaily(itemID, itemName, quantity, price, pdate, pt
 
 async function updateStoreInventory(itemID, ModifiedQuanity,price) {
 
- 
+  const tableName = TABLES.storeinventory;
   const { data, error } = await supabase
-    .from('storeinventory')
+    .from(tableName)
     .update({ quantity: ModifiedQuanity },{ price: price})
     .eq('itemid', itemID);
 

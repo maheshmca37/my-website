@@ -9,6 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 
+  <script src="config.js"></script>
   <script src="storemanage.js"></script>
 
   <script>
@@ -68,8 +69,9 @@
     }
 
     async function addStoreConfigItem(itemID, itemName, itemType, itemCost, remarks) {
+      const tableName = TABLES.storeconfigitems;
       const { data, error } = await supabase
-        .from('storeconfigitems')
+        .from(tableName)
         .insert([
           {
             itemid: itemID,

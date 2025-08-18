@@ -6,6 +6,7 @@
 
  <!-- Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="config.js"></script>
 
 
   <script>
@@ -95,7 +96,8 @@
       timeDisplay.textContent = `🕒 ${dateString} ${timeString}`;
 
       // Fetch storeconfigitems from Supabase
-      const { data, error } = await supabase.from('storeconfigitems').select('*');
+       const tableName = TABLES.storeconfigitems;
+      const { data, error } = await supabase.from(tableName).select('*');
       
       storeConfigItems = data;
 
@@ -168,7 +170,8 @@
         const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const username = localStorage.getItem('store_username');;
 
-        const { data, error } = await supabase.from('storeinventory').select('*');
+         const tableName = TABLES.storeinventory;
+        const { data, error } = await supabase.from(tableName).select('*');
         storeInventoryTableData = data;
 
         addItemstoStoreDaily(selectedItem, itemname, quantity, (quantity*itemcost),dateString, timeString,username, remarks);

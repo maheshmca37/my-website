@@ -6,6 +6,7 @@
 
  <!-- Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="config.js"></script>
 
 
   <script>
@@ -96,8 +97,9 @@
     const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     timeDisplay.textContent = `🕒 ${dateString} ${timeString}`;
 
+    const tableName = TABLES.storeconfigitems;
     // Fetch items from Supabase
-    const { data, error } = await supabase.from('storeconfigitems').select('*');
+    const { data, error } = await supabase.from(tableName).select('*');
     storeConfigItems = data;
 
     if (error) {
@@ -161,7 +163,8 @@
     const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const username = localStorage.getItem('store_username');;
 
-    const { data, error } = await supabase.from('storeinventory').select('*');
+    const tableName = TABLES.storeinventory;
+    const { data, error } = await supabase.from(tableName).select('*');
     
     const itemExists = data.some(item => item.itemname === itemname);
     if (!itemExists) {
@@ -199,7 +202,7 @@
 
 <script>
    function backToHomepage() {
-    window.location.href = 'index.html';
+    window.location.href = 'homepage.html';
     }
 
 </script>

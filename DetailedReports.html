@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Reports Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="config.js"></script>
    <link rel="stylesheet" href="DetailedReports.css">
 </head>
 <body>
@@ -160,8 +161,9 @@
       controlsDiv.innerHTML = '';
       resultsDiv.innerHTML = '';
 
+      const tableName = TABLES.storeconfigitems;
       const items = await supabase
-        .from('storeconfigitems')
+        .from(tableName)
         .select('itemname');
 
       const itemSel = document.createElement('select');
@@ -302,7 +304,9 @@ dynamicControls.appendChild(dateWrapper);
 
     // Fetch data for Date Reports
     async function fetchDateData({ singleDate, range, month, entire, type }) {
-      const table = type === '1' ? 'addeditemstostore' : 'solditemsfromstore';
+      const tableName = TABLES.solditemsfromstore;
+      const tableName1 = TABLES.addeditemstostore;
+      const table = type === '1' ?  tableName1 : tableName;
       let query = supabase.from(table).select('*');
 
       if (singleDate) {
@@ -312,8 +316,22 @@ dynamicControls.appendChild(dateWrapper);
         fromDate.setDate(fromDate.getDate() - 6);
         query = query.gte(type === '1' ? 'addeddate' : 'solddate', fromDate.toISOString().split('T')[0]);
       } else if (month) {
-        query = query.gte(type === '1' ? 'addeddate' : 'solddate', `${new Date().getFullYear()}-${String(month).padStart(2, '0')}-01`)
-                     .lt(type === '1' ? 'addeddate' : 'solddate', `${new Date().getFullYear()}-${String(month + 1).padStart(2, '0')}-01`);
+         const year = new Date().getFullYear();
+
+  // Get the start of the current month
+          const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+
+  // Calculate next month's date safely
+          const nextMonthDate = new Date(year, month, 1); // month is 1-based in your code
+          const nextMonthYear = nextMonthDate.getFullYear();
+          const nextMonth = nextMonthDate.getMonth() + 1; // getMonth() gives 0-based month
+
+          const endDate = `${nextMonthYear}-${String(nextMonth).padStart(2, '0')}-01`;
+
+          query = query
+          .gte(type === '1' ? 'addeddate' : 'solddate', startDate)
+          .lt(type === '1' ? 'addeddate' : 'solddate', endDate);  
+      
       }
       const { data, error } = await query.order('itemname', { ascending: true });
       if (error) {
@@ -325,7 +343,9 @@ dynamicControls.appendChild(dateWrapper);
 
     // Fetch data for Item Reports
     async function fetchItemData({ item, type, singleDate, range, month, entire }) {
-      const table = type === '1' ? 'addeditemstostore' : 'solditemsfromstore';
+      const tableName = TABLES.solditemsfromstore;
+      const tableName1 = TABLES.addeditemstostore;
+      const table = type === '1' ? tableName1 : tableName;
       let query = supabase.from(table).select('*').eq('itemname', item);
 
       if (singleDate) {
@@ -335,9 +355,23 @@ dynamicControls.appendChild(dateWrapper);
         fromDate.setDate(fromDate.getDate() - 6);
         query = query.gte(type === '1' ? 'addeddate' : 'solddate', fromDate.toISOString().split('T')[0]);
       } else if (month) {
-        query = query.gte(type === '1' ? 'addeddate' : 'solddate', `${new Date().getFullYear()}-${String(month).padStart(2, '0')}-01`)
-                     .lt(type === '1' ? 'addeddate' : 'solddate', `${new Date().getFullYear()}-${String(month + 1).padStart(2, '0')}-01`);
-      }
+          const year = new Date().getFullYear();
+
+  // Get the start of the current month
+          const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+
+  // Calculate next month's date safely
+          const nextMonthDate = new Date(year, month, 1); // month is 1-based in your code
+          const nextMonthYear = nextMonthDate.getFullYear();
+          const nextMonth = nextMonthDate.getMonth() + 1; // getMonth() gives 0-based month
+
+          const endDate = `${nextMonthYear}-${String(nextMonth).padStart(2, '0')}-01`;
+
+          query = query
+          .gte(type === '1' ? 'addeddate' : 'solddate', startDate)
+          .lt(type === '1' ? 'addeddate' : 'solddate', endDate);
+}
+
       const { data, error } = await query.order('itemname', { ascending: true });
       if (error) {
         resultsDiv.textContent = 'Error: ' + error.message;
@@ -348,7 +382,8 @@ dynamicControls.appendChild(dateWrapper);
 
     // Fetch data for Sale Analysis
     async function fetchSaleAnalysis({ singleDate, range, month }) {
-      let query = supabase.from('solditemsfromstore').select('itemname, soldquantity');
+      const tableName = TABLES.solditemsfromstore;
+      let query = supabase.from(tableName).select('itemname, soldquantity');
       if (singleDate) {
         query = query.eq('solddate', singleDate);
       } else if (range === 'last7') {
@@ -356,8 +391,21 @@ dynamicControls.appendChild(dateWrapper);
         fromDate.setDate(fromDate.getDate() - 6);
         query = query.gte('solddate', fromDate.toISOString().split('T')[0]);
       } else if (month) {
-        query = query.gte('solddate', `${new Date().getFullYear()}-${String(month).padStart(2, '0')}-01`)
-                     .lt('solddate', `${new Date().getFullYear()}-${String(month + 1).padStart(2, '0')}-01`);
+         const year = new Date().getFullYear();
+
+  // Get the start of the current month
+          const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+
+  // Calculate next month's date safely
+          const nextMonthDate = new Date(year, month, 1); // month is 1-based in your code
+          const nextMonthYear = nextMonthDate.getFullYear();
+          const nextMonth = nextMonthDate.getMonth() + 1; // getMonth() gives 0-based month
+
+          const endDate = `${nextMonthYear}-${String(nextMonth).padStart(2, '0')}-01`;
+
+          query = query
+          .gte(type === '1' ? 'addeddate' : 'solddate', startDate)
+          .lt(type === '1' ? 'addeddate' : 'solddate', endDate);  
       }
 
       const { data, error } = await query;
