@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>STORE MANAGEMENT SYSTEM</title>
+
+  <script src="config.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body {
@@ -108,8 +111,9 @@
 
     supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
     async function loadCurrentStock() {
+      const tableName = TABLES.storeinventory;
       const { data, error } = await supabase
-        .from('storeinventory')
+        .from(tableName)
         .select('itemid, itemname, quantity, price, remarks')
         .order('itemid', { ascending: true });
 
@@ -123,8 +127,9 @@
     }
 
     async function AddedStockReports() {
+      const tableName = TABLES.addeditemstostore;
       const { data, error } = await supabase
-        .from('addeditemstostore')
+        .from(tableName)
         .select('itemid, itemname, quantityadded, price, addeddate, addedtime, addedby, remarks')
         .order('addedtime', { ascending: false });
 
@@ -138,8 +143,9 @@
     }
 
     async function SoldStockReports() {
+      const tableName = TABLES.solditemsfromstore;
       const { data, error } = await supabase
-        .from('solditemsfromstore')
+        .from(tableName)
         .select('itemid, itemname, soldquantity, soldprice, solddate, soldtime, soldby, remarks')
         .order('soldtime', { ascending: false });
 
