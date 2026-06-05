@@ -1,109 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Store Mnagement Services</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .login-container {
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 0.6rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      width: 100%;
-      padding: 0.6rem;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      margin-top: 1rem;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .error {
-      color: red;
-      margin-top: 0.5rem;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wonder Games</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
+<script>
+
+window.onload = function() {
+
+    let user = sessionStorage.getItem("loggedUser");
+
+    let loginButton = document.getElementById("loginBtn");
+
+    if(user != null) {
+
+        loginButton.innerHTML = sessionStorage.getItem("loggedUser") +'<br>'+'Bal: '+sessionStorage.getItem("AccountBalance");
+        document.getElementById("accountBtn").style.display = "inline-block";
+
+        loginBtn.disabled = true;
+
+    }
+    else {
+
+        loginButton.innerHTML = "Login";
+
+    }
+
+}
+
+</script>
+
+
+
+
 <body>
-  <div class="login-container">
-    <h2>User Login</h2>
-    <form id="login-form">
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-      <div class="error" id="error-msg"></div>
-    </form>
-  </div>
 
-  <script src="config.js"></script>
-  <!-- Include Supabase JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Top Right Buttons -->
+    <div class="top-buttons">
+        <button id="loginBtn" onclick="location.href='login.html'">
+    Login
+</button>
+        <button id="signupLogoutBtn">Sign Up</button>
 
-  <script>
-    // Initialize Supabase
-    const supabaseUrl = 'https://zabwuvdtqclhbuiocdey.supabase.co'; // ✅ Correct URL
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphYnd1dmR0cWNsaGJ1aW9jZGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDgzNDEsImV4cCI6MjA3MDMyNDM0MX0.T9cgmFpSup1OPwUD5hgEEhVbDfArPdkLaaAKjKlklxU'; // ✅ Full anon key
+        <button id="accountBtn"
+        onclick="location.href='account.html'"
+        style="display:none;">
+         Account
+        </button>
 
-    supabase = supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use window
+    </div>
+
+    <!-- Headings -->
+    <div class="headings">
+        <h1>Welcome to Wonder Games</h1>
+        <h2>Play Fun Online Games</h2>
+        <h3>Enjoy and Challenge Yourself</h3>
+    </div>
+
+    <!-- Game Buttons -->
+    <div class="games-container">
+
+        <button onclick="location.href='game1.html'">MIN MAX 6</button>
+        <button onclick="location.href='game2.html'">HEAD OR TAIL</button>
+        <button onclick="location.href='game3.html'">SUPER 7</button>
+        <button onclick="location.href='game4.html'">RED OR BLACK</button>
+        <button onclick="location.href='game5.html'">Game 5</button>
+        <button onclick="location.href='game6.html'">Game 6</button>
+        <button onclick="location.href='game7.html'">Game 7</button>
+        <button onclick="location.href='game8.html'">Game 8</button>
+        <button onclick="location.href='game9.html'">Game 9</button>
+        <button onclick="location.href='crickethome.html'">Live Cricket</button>
+
+    </div>
 
 
-    const loginForm = document.getElementById('login-form');
-    const errorMsg = document.getElementById('error-msg');
+<script>
 
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  const btn = document.getElementById("signupLogoutBtn");
 
-      const password = document.getElementById('password').value.trim();
+if (sessionStorage.getItem("isLoggedIn") === "true") {
 
-      const tableName = TABLES.storeusers;
-      const { data, error } = await supabase
-        .from(tableName)
-        .select('password')
-        .eq('password', password);
+    btn.textContent = "Log Out";
 
-      if (error) {
-        errorMsg.textContent = 'Invalid User..!';
-        console.error(error);
-      } else if (data.length > 0) {
-        // Password match found
-        const username = document.getElementById('username').value.trim(); // ✅ Correct
-        localStorage.setItem('store_username', username); // Store username
-        errorMsg.style.color = 'green';
-        errorMsg.textContent = 'Login successful!';
-        // Redirect or load dashboard here
-     window.location.href = 'homepage.html';
-      } else {
-        errorMsg.textContent = 'Invalid Password.';
+    btn.onclick = function () {
+
+       const result = confirm("Are you sure you want to log out?");
+
+      if (!result) {
+        return;
       }
-    });
-  </script>
+
+        sessionStorage.clear();
+
+        window.location.href = "index.html";
+    };
+
+} else {
+
+    btn.textContent = "Sign Up";
+
+    btn.onclick = function () {
+
+        window.location.href = "signup.html";
+    };
+}
+
+</script>
+
+    
 </body>
+
 </html>

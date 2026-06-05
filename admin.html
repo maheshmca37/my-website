@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Round Controller</title>
+</head>
+
+<body>
+
+<h1>Game1 [ MIN6  MAX6 ] Round Controller Running...</h1>
+
+<h1>Game2 [ HEAD OR TAIL ] Round Controller Running...</h1>
+
+<h1>Game3 [ SUPER 7 ] Round Controller Running...</h1>
+
+<script type="module">
+
+import { createClient }
+from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+ const supabaseUrl = "https://dbfycihbcosuxxkrmbhl.supabase.co";
+ const supabaseKey = "sb_publishable_aOyXtAbzrrX0Z9jPAU1qEA_0ZnK35BX";
+
+
+const supabase =
+createClient(supabaseUrl,supabaseKey);
+
+
+async function getCurrentRoundValue(rpcFunctionName){
+
+    const { data, error } =
+    await supabase.rpc(rpcFunctionName);
+
+    if(error){
+        console.log(error);
+        return 5;
+    }
+
+    return data;
+}
+
+
+function startGame(gameName, tableName, rpcFunctionName){
+
+    let isRunning = false;
+
+    async function runRound(){
+
+        try{
+
+            if(isRunning) return;
+
+            isRunning = true;
+
+            // GET CURRENT ROUND
+            const { data: roundData,error  }
+            = await supabase
+            .from(tableName)
+            .select("round_no")
+            .eq("id",1)
+            .single();
+
+            console.log("GAME3 data:", roundData);
+            console.log("GAME3 error:", error);
+
+            let nextRound =
+            roundData.round_no + 1;
+
+            // START ROUND
+            await supabase
+            .from(tableName)
+            .update({
+
+                round_no: nextRound,
+
+                start_time:
+                new Date().toISOString(),
+
+                result_value: null
+
+            })
+            .eq("id",1);
+
+            console.log(
+                gameName +
+                " ROUND STARTED : ",
+                nextRound
+            );
+
+            // WAIT 27 SEC
+            await new Promise(resolve =>
+                setTimeout(resolve,27000)
+            );
+
+            // GENERATE RESULT
+            let resultValue =
+            await getCurrentRoundValue(
+                rpcFunctionName
+            );
+
+            await supabase
+            .from(tableName)
+            .update({
+
+                result_value:
+                resultValue
+
+            })
+            .eq("id",1);
+
+            console.log(
+                gameName +
+                " RESULT : ",
+                resultValue
+            );
+
+        }
+        catch(err){
+
+            console.log(
+                gameName,
+                err
+            );
+
+        }
+        finally{
+
+            isRunning = false;
+
+            setTimeout(()=>{
+                runRound();
+            },3000);
+        }
+    }
+
+    runRound();
+}
+
+
+const games = [
+
+    {
+        name: "GAME1",
+        table: "game1_CurrentRound",
+        rpc: "sendgame1_curvalue"
+    },
+
+    {
+        name: "GAME2",
+        table: "game2_CurrentRound",
+        rpc: "sendgame2_curvalue"
+    },
+    {
+        name: "GAME3",
+        table: "game3_CurrentRound",
+        rpc: "sendgame3_curvalue"
+    }
+
+];
+
+  
+
+games.forEach(game => {
+
+    startGame(
+        game.name,
+        game.table,
+        game.rpc
+    );
+
+});
+
+</script>
+
+</body>
+</html>
